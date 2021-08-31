@@ -207,6 +207,8 @@ export default {
     word-break:break-all
   }
   >.xl-scroll-bar{
+    box-sizing: border-box;
+    padding-left: 5px;
     height: 100%;
     >.xl-bar{
       // background-color: #909399;

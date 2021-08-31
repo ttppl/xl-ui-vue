@@ -78,7 +78,7 @@
       </div>
 
       <div style="margin-top:20px">
-        <XlPopover v-model="popover" inline>
+        <XlPopover height="0.1" v-model="popover" inline>
           <template #reference>
             <button @click="popover=!popover">collapse</button>
           </template>

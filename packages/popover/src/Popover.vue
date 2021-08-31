@@ -105,44 +105,6 @@ export default {
         return 'click'
       }
       return this.trigger
-    },
-
-    style () {
-      const style = {}
-      if (this.borderRadius > 0) {
-        style.borderRadius = this.borderRadius + 'px'
-      }
-      if (this.width !== 0) {
-        style.width = this.widthC
-      }
-      if (this.height !== 0) {
-        style.height = this.heightC
-      }
-      return style
-    },
-
-    widthC () {
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return this.width + 'px'
-      } else if (this.width < 1) {
-        return this.width * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return this.height + 'px'
-      } else if (this.height < 1) {
-        return this.height * 100 + '%'
-      } else {
-        return '100%'
-      }
     }
   },
 

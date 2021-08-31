@@ -1,6 +1,7 @@
 <script type="text/ecmascript-6">
 import { h, Teleport, Transition, vShow, withDirectives, withCtx } from 'vue'
 import zIndexManager from '../../utils/zIndexManager'
+import Scroll from '../../scroll/src/Scroll'
 export default {
   name: 'XlPropper',
 
@@ -89,9 +90,9 @@ export default {
       } else if (this.width > 1) {
         return this.width + 'px'
       } else if (this.width < 1) {
-        return this.width * 100 + '%'
+        return window.innerWidth * this.width + 'px'
       } else {
-        return '100%'
+        return window.innerWidth + 'px'
       }
     },
 
@@ -101,9 +102,9 @@ export default {
       } else if (this.height > 1) {
         return this.height + 'px'
       } else if (this.height < 1) {
-        return this.height * 100 + '%'
+        return window.innerHeight * this.height + 'px'
       } else {
-        return '100%'
+        return window.innerHeight + 'px'
       }
     },
 
@@ -205,7 +206,6 @@ export default {
         const ownWidth = this.$refs.popper?.getBoundingClientRect().width
         const ownHeight = this.$refs.popper?.getBoundingClientRect().height
         const arrowSize = this.showArrow?this.arrowAttr.arrowSize:0
-
         if(this.position==='bottom'){
           this.finalPosition = (parentOffsetBottom + ownHeight + arrowSize)>window.innerHeight?'top':'bottom'
         }
@@ -340,7 +340,7 @@ export default {
             ), h(
               'div',
               { class: [{ 'xl-popper-primary-style': this.type === 'primary' }, 'xl-popper'], style: this.contentStyle, ref: 'popperInner' },
-              this.$slots.default()
+              h(Scroll, null, this.$slots.default())
             )]
 
           ),
@@ -350,7 +350,7 @@ export default {
     ), this.width === 0 || this.height === 0 ? h(
       'div',
       { class: [{ 'xl-popper-primary-style': this.type === 'primary' }, 'xl-hidden-popper'], ref: 'popper', style: this.contentStyle },
-      this.$slots.default()
+      h(Scroll, null, this.$slots.default())
     ) : null])
   }
 }
@@ -376,6 +376,7 @@ export default {
 }
 .xl-popper{
   position: relative;
+  overflow: hidden;
 }
 .xl-popper-primary-style{
   padding:@gap/2 @gap/2 @gap/2 @gap/2;
