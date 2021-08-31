@@ -1,0 +1,65 @@
+
+//  @baseColors:{
+//   1: #3A909D; // 绿
+//   2: #F0A201; // 橙
+//   3: #D6E9F0; // 浅蓝色tableHeadColor
+//   4: #FFFFFF; // fontColor白
+//   5: #F6F6F6; // 浅灰色，输入框底色
+//   6: #FED47E; // 浅橙色，输入完成后底色
+//   7: #808080; // placeholder颜色-灰色
+//   8: #FEF4DD; // 浅色橙色输入框底色，比5更浅
+//   9: #9AC5CB;// 浅绿，返回按钮颜色
+//   10:#C3DCE0;//card边框颜色
+//   11:#000000;//字体颜色
+//   12:#51BFD0;//menuitem HOVER颜色
+//   13:#72BEDE;//进度条颜色
+//  }
+ 
+
+
+
+@gaps:5,10,20,30,40,50,60,70,80,90,100,200,400,800;
+each(@gaps, {
+  .mg-@{value}{
+    margin: extract(@gaps,@index)+0px extract(@gaps,@index)+0px extract(@gaps,@index)+0px extract(@gaps,@index)+0px;
+  }
+  .mg-l-@{value}{
+    margin-left: extract(@gaps,@index)+0px;
+  }
+  .mg-r-@{value}{
+    margin-right: extract(@gaps,@index)+0px;
+  }
+  .mg-t-@{value}{
+    margin-top: extract(@gaps,@index)+0px;
+  }
+  .mg-b-@{value}{
+    margin-bottom: extract(@gaps,@index)+0px;
+  }
+  .pd-@{value}{
+    padding: extract(@gaps,@index)+0px extract(@gaps,@index)+0px extract(@gaps,@index)+0px extract(@gaps,@index)+0px;
+  }
+  .pd-l-@{value}{
+    padding-left: extract(@gaps,@index)+0px;
+  }
+  .pd-r-@{value}{
+    padding-right: extract(@gaps,@index)+0px;
+  }
+  .pd-t-@{value}{
+    padding-top: extract(@gaps,@index)+0px;
+  }
+  .pd-b-@{value}{
+    padding-bottom: extract(@gaps,@index)+0px;
+  }
+});
+
+each(range(100), {
+  .flex-@{value} {
+    flex: 0 @value/10 (@value * 1%);
+  }
+  .width-@{value} {
+    width:@value * 1%;
+  }
+  .opacity-@{value} {
+    opacity:@value /100;
+  }
+});
