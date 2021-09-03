@@ -23,12 +23,12 @@
 <script type="text/ecmascript-6">
 import clickoutside from '../../utils/clickouside'
 import { computed } from 'vue'
-import {InputThemeType} from '../../types'
+import {InputThemeType,themeType} from '../../types'
 export default {
   name: 'XlSelect',
 
-  nameSpace: 'XlSelect',
   directives: { clickoutside },
+
   components: {
   },
 
@@ -74,12 +74,12 @@ export default {
     },
 
     width: {
-      type: Number,
+      type: [Number, String],
       default: 1
     },
 
     height: {
-      type: Number,
+      type: [Number, String],
       default: 50
     },
 
@@ -124,7 +124,10 @@ export default {
     classes () {
       const cls = this.popClass || []
       const type = InputThemeType(this.type || 'primary',this.lightStyle)
-      return [...type, ...cls]
+      if(this.showSelectMenu){
+        type.splice(1,1,themeType(this.type||'primary','bd',this.lightStyle))
+      }
+      return [...type, ...cls,focus]
     },
 
     model: {
@@ -149,24 +152,30 @@ export default {
     },
 
     widthC () {
+      if(isNaN(this.width)){
+        return this.width
+      }
       if (this.width === 0) {
         return 'auto'
       } else if (this.width > 1) {
-        return this.width + 'px'
+        return `${this.width}px`
       } else if (this.width < 1) {
-        return this.width * 100 + '%'
+        return `${this.width*100}%`
       } else {
         return '100%'
       }
     },
 
     heightC () {
+      if(isNaN(this.height)){
+        return this.height
+      }
       if (this.height === 0) {
         return 'auto'
       } else if (this.height > 1) {
-        return this.height + 'px'
+        return `${this.height}px`
       } else if (this.height < 1) {
-        return this.height * 100 + '%'
+        return `${this.height*100}%`
       } else {
         return '100%'
       }

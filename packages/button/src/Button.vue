@@ -5,10 +5,13 @@
 </template>
 
 <script type="text/ecmascript-6">
+import whCompute from '../../mixins/whCompute'
 import {themeType} from '../../types'
 export default {
   name: 'XlButton',
 
+  mixins:[whCompute],
+  
   components: {
   },
 
@@ -38,16 +41,6 @@ export default {
       default: ''
     },
 
-    width: { // 宽度  0-1会转%，大于1转px
-      type: Number,
-      default: 0
-    },
-
-    height: { // 高度
-      type: Number,
-      default: 0
-    },
-
     to: {
       type: String,
       default: ''
@@ -61,29 +54,6 @@ export default {
   },
 
   computed: {
-    widthC () {
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return this.width + 'px'
-      } else if (this.width < 1) {
-        return this.width * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return this.height + 'px'
-      } else if (this.height < 1) {
-        return this.height * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
 
     styleC () {
       const style = this.popStyle||{}
@@ -153,7 +123,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .XlButton{
   display: inline-flex;
   justify-content: center;

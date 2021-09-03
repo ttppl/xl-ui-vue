@@ -12,8 +12,6 @@ import {computed} from 'vue'
 export default {
   name: 'XlBookmarkGroup',
 
-  nameSpace: 'XlBookmarkGroup',
-
   components: {
     Bookmark
   },
@@ -67,7 +65,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .XlBookmarkGroup{
   display: flex;
 }

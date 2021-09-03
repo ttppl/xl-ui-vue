@@ -10,8 +10,6 @@ import { defineComponent, computed, provide } from 'vue'
 export default defineComponent({
   name: 'XlChooseGroup',
 
-  nameSpace: 'XlChooseGroup',
-
   components: {
   },
 

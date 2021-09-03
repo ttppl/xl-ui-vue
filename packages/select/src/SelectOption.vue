@@ -13,8 +13,6 @@ import {TYPES,themeType} from '../../types'
 export default {
   name: 'XlSelectOption',
 
-  nameSpace: 'XlSelectOption',
-
   components: {
   },
 

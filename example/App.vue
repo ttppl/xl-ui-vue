@@ -114,20 +114,20 @@
         </XlPopover>
       </div>
       <div style="margin-top:20px">
-        <XlPopover position="right" v-model="popoverright" inline>
+        <XlPopover position="right" trigger="hover" v-model="popoverright" inline>
           <template #reference>
             <button @click="popoverright=!popoverright">collapse-right</button>
           </template>
           <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
         </XlPopover>
       </div>
       <div>
         <XlBookmarkGroup light @click-handle='click' v-model="bookmark" type="notice">
-          <XlBookmark  label="111"></XlBookmark>
+          <XlBookmark label="111"></XlBookmark>
           <XlBookmark label="222"></XlBookmark>
           <XlBookmark label="333"></XlBookmark>
         </XlBookmarkGroup>
@@ -139,6 +139,17 @@
       </div>
       <div>
         <XlButton light-style >button</XlButton>
+      </div>
+      <div>
+        <XlTooltip width="50">2111111111111111111111111111111111111111111111111</XlTooltip>
+      </div>
+      <div class="gap">
+        <XlTable :data-list="dataList">
+          <XlTableColumn column-name = 'a'></XlTableColumn>
+          <XlTableColumn column-name = 'b'></XlTableColumn>
+          <XlTableColumn column-name = 'c'></XlTableColumn>
+          <XlTableColumn column-name = 'd'></XlTableColumn>
+        </XlTable>
       </div>
   </div>
 </template>
@@ -166,7 +177,13 @@ export default {
       popoverbottom:false,
       // popover:false,
       bookmark:"111",
-      code:''
+      code:'',
+      dataList:[{
+        a:'aaa',
+        b:'bbb',
+        c:'ccc',
+        d:'ddd',
+      }]
     }
   },
   methods:{
@@ -202,5 +219,8 @@ export default {
 }
 .text-left{
   text-align: left;
+}
+.gap{
+  margin:40px;
 }
 </style>

@@ -2,23 +2,25 @@
 import { h, Teleport, Transition, vShow, withDirectives, withCtx } from 'vue'
 import zIndexManager from '../../utils/zIndexManager'
 import Scroll from '../../scroll/src/Scroll'
+import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlPropper',
 
   nameSpace: '',
-
+  mixins:[whCompute],
   components: {
   },
-  inject:['XlPopover'],
+  inject:['XlPopperTrigger'],
   props: {
     modelValue: Boolean,
+
     width: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
 
     height: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
 
@@ -43,7 +45,7 @@ export default {
     }
   },
 
-  emits: ['update:modelValue', 'close'],
+  emits: ['update:modelValue', 'close','mouseover', 'mouseout'],
 
   data () {
     return {
@@ -80,23 +82,29 @@ export default {
         this.$emit('update:modelValue', nv)
       }
     },
-    xlPopover(){
-      return this.XlPopover.value||this.XlPopover
+    xlPopperTrigger(){
+      return this.XlPopperTrigger.value||this.XlPopperTrigger
     },
 
     widthC () {
+      if(isNaN(this.width)){
+        return this.width
+      }
       if (this.width === 0) {
         return 'auto'
       } else if (this.width > 1) {
         return this.width + 'px'
       } else if (this.width < 1) {
-        return window.innerWidth * this.width + 'px'
+        return `${window.innerWidth * this.width}px`
       } else {
         return window.innerWidth + 'px'
       }
     },
 
     heightC () {
+      if(isNaN(this.height)){
+        return this.height
+      }
       if (this.height === 0) {
         return 'auto'
       } else if (this.height > 1) {
@@ -194,7 +202,7 @@ export default {
       if (!this.modelValue) {
         return
       }
-      const parent = this.xlPopover.dom()
+      const parent = this.xlPopperTrigger.dom()
       if (parent) {
         const parentOffetLeft = parent.getBoundingClientRect().left
         const parentOffsetRight = parent.getBoundingClientRect().right
@@ -316,6 +324,13 @@ export default {
       if (e.parentNode) {
         return this.isFixed(e.parentNode)
       }
+    },
+    mouseover (e) {
+      this.$emit('mouseover', e)
+    },
+
+    mouseout (e) {
+      this.$emit('mouseout', e)
     }
   },
 
@@ -331,7 +346,9 @@ export default {
             'div',
             {
               class: 'popper-out',
-              style: this.style
+              style: this.style,
+              onMouseover: this.mouseover,
+              onMouseout: this.mouseout
 
             }, [h(
               'div',

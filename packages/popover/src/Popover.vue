@@ -1,7 +1,9 @@
 <template>
-  <div ref="popover" @[popTrigger]="show" v-clickoutside="closePopOutSide" class="XlPopover" :class="{'inline-block':inline}">
+  <div ref="popover" @[popTrigger]="show" @mouseout="mouseout" v-clickoutside="closePopOutSide" class="XlPopover" :class="{'xl-inline-block':inline}">
       <slot name="reference" />
-    <popper ref="popper" v-model="model" :position="position" :show-arrow="showArrow" :width="width" :height="height" :pop-style="popStyle" @close="closePop">
+    <popper ref="popper" v-model="model" :position="position" :show-arrow="showArrow" :width="width" :height="height" :pop-style="popStyle" 
+            @mouseover="mouseover" @mouseout="mouseout"
+            @close="closePop">
       <slot />
     </popper>
   </div>
@@ -18,7 +20,7 @@ export default {
   directives: { clickoutside },
   provide () {
     return {
-      XlPopover: computed(() => {
+      XlPopperTrigger: computed(() => {
         return {
           name: 'XlPopover',
           dom:()=>{
@@ -36,12 +38,12 @@ export default {
     modelValue: Boolean,
     inline: Boolean,
     width: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
 
     height: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
 
@@ -127,14 +129,42 @@ export default {
 
     closePop () {
       this.model = false
+    },
+    mouseover () {
+      if (this.trigger === 'hover') {
+        if (this.timer) {
+          clearTimeout(this.timer)
+        }
+        this.model = true
+      }
+    },
+    mouseout () {
+      // if (this.trigger === 'hover') {
+      //   let timeout = null
+      //   document.body.onmouseover = (e) => {
+      //     if (!this.$refs.popper.contains(e.target)) {
+      //       timeout = setTimeout(() => {
+      //         this.model = false
+      //         document.body.onmouseover = null
+      //       }, 300)
+      //     } else {
+      //       clearTimeout(timeout)
+      //     }
+      //   }
+      // }
+      if (this.trigger === 'hover') {
+        this.timer = setTimeout(() => {
+          this.model = false
+        }, 300)
+      }
     }
   }
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 @gap:20px;
-.inline-block{
+.xl-inline-block{
   display: inline-block;
 }
 .XlPopover{

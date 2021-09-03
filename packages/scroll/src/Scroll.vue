@@ -10,6 +10,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import whCompute from '../../mixins/whCompute'
 import {themeType} from '../../types'
 const on = function (element, event, handler, useCapture = false) {
   if (element && event && handler) {
@@ -23,22 +24,13 @@ const off = function (element, event, handler, useCapture = false) {
 }
 export default {
   name: 'XlScroll',
-
-  nameSpace: 'XlScroll',
-
+  
+  mixins:[whCompute],
+  
   components: {
   },
 
   props: {
-    width: {
-      type: Number,
-      default: 0
-    },
-
-    height: {
-      type: Number,
-      default: 0
-    },
 
     showScroll: {
       type: Boolean,
@@ -67,29 +59,6 @@ export default {
   },
 
   computed: {
-    widthC () {
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return this.width + 'px'
-      } else if (this.width < 1) {
-        return this.width * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return this.height + 'px'
-      } else if (this.height < 1) {
-        return this.height * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
 
     style () {
       let tmp = ''

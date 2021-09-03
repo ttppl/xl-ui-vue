@@ -127,7 +127,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style lang="less">
 .collapse-transition {
   -webkit-transition: .4s height ease-in-out, .4s padding-top ease-in-out, .4s padding-bottom ease-in-out;
   transition: .4s height ease-in-out, .4s padding-top ease-in-out, .4s padding-bottom ease-in-out;

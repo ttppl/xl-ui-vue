@@ -88,24 +88,30 @@ export default {
     },
 
     widthC () {
+      if(isNaN(this.width)){
+        return this.width
+      }
       if (this.width === 0) {
         return 'auto'
       } else if (this.width > 1) {
-        return this.width + 'px'
+        return `${this.width}px`
       } else if (this.width < 1) {
-        return this.width * 100 + '%'
+        return `${this.width*100}%`
       } else {
         return '100%'
       }
     },
 
     heightC () {
+      if(isNaN(this.height)){
+        return this.height
+      }
       if (this.height === 0) {
         return 'auto'
       } else if (this.height > 1) {
-        return this.height + 'px'
+        return `${this.height}px`
       } else if (this.height < 1) {
-        return this.height * 100 + '%'
+        return `${this.height*100}%`
       } else {
         return '100%'
       }
@@ -138,20 +144,6 @@ export default {
       if (!style.fontSize && this.height > 1) { style.fontSize = this.height / 3 + 'px' }
       return style
     }
-  },
-
-  created () {
-  },
-
-  mounted () {
-    // if(this.lightStyle){
-    //   this.$nextTick(()=>{
-    //     const input = this.$refs.input
-    //     let style = window.getComputedStyle(input)
-    //     input.style.borderColor = style.borderColor.slice(0,-1)+',0.5)'
-    //     console.log(style.borderColor);
-    //   })
-    // }
   },
 
   methods: {

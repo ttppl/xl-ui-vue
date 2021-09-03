@@ -11,11 +11,13 @@
 </template>
 
 <script type="text/ecmascript-6">
+import whCompute from '../../mixins/whCompute'
 import {themeType} from '../../types'
 export default {
   name: 'XlCard',
-
-  nameXlace: 'XlCard',
+  
+  mixins:[whCompute],
+  
   components: {
   },
 
@@ -28,15 +30,6 @@ export default {
     customClass: {
       type: String,
       default: ''
-    },
-    width: {
-      type: Number,
-      default: 0
-    },
-
-    height: {
-      type: Number,
-      default: 0
     },
     lightStyle:Boolean
   },
@@ -61,29 +54,6 @@ export default {
       const type = themeType(this.type||'notice','bd',this.lightStyle)
       return [...classes,type]
     },
-    widthC () {
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return this.width + 'px'
-      } else if (this.width < 1) {
-        return this.width * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return this.height + 'px'
-      } else if (this.height < 1) {
-        return this.height * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
     style () {
       const style =  {}
       if (!style.width && this.width !== 0) {
@@ -98,7 +68,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .XlCard{
   // box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
   @borderWidth:2px;

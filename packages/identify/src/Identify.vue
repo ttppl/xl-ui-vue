@@ -176,7 +176,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
 .XlIdentify{
   cursor: pointer;
 }

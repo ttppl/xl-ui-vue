@@ -19,8 +19,6 @@ import {themeType} from '../../types'
 export default {
   name: 'XlChoose',
 
-  nameSpace: 'XlChoose',
-
   inject: ['chooseGroup'],
 
   props: {

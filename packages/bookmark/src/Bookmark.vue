@@ -8,10 +8,12 @@
 
 <script type="text/ecmascript-6">
 import {themeType} from '../../types'
+import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlBookmark',
-
-  nameSpace: 'XlBookmark',
+  
+  mixins:[whCompute],
+  
   components: {
   },
   inject:['XlBookmarkGroup'],
@@ -43,16 +45,7 @@ export default {
     to: {
       type: [String,Object],
       default: ''
-    },
-    width: {
-      type: Number,
-      default: 0
-    },
-
-    height: {
-      type: Number,
-      default: 0
-    },
+    }
   },
 
   emits: ['update:modelValue','click-handle'],
@@ -90,38 +83,15 @@ export default {
     },
 
     classes(){
-      const classes = [themeType(this.themeType,'bg',this.isLight),themeType(this.themeType,'',this.isLight)]
+      const classes = [themeType(this.themeType,'bookmark-bg',this.isLight),themeType(this.themeType,'',this.isLight)]
       return classes
     },
     classesInner(){
-      let classes = [themeType('white','bg')]
+      let classes = [themeType('white','bookmark-bg')]
       if(this.model===this.label){
-        classes = [themeType(this.themeType,'bg',this.isLight),themeType('white')]
+        classes = [themeType(this.themeType,'bookmark-bg',this.isLight),themeType('white')]
       }
       return [...classes]
-    },
-    widthC () {
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return this.width + 'px'
-      } else if (this.width < 1) {
-        return this.width * 100 + '%'
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return this.height + 'px'
-      } else if (this.height < 1) {
-        return this.height * 100 + '%'
-      } else {
-        return '100%'
-      }
     },
     style () {
       const style = {}
@@ -174,7 +144,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .XlBookmark{
   @gap:20px;
   margin-right: @gap/4;

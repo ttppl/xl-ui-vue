@@ -66,13 +66,13 @@ each(@baseColors, {
   }
   
 
-  //sptag
-  .xl-bookmark-bg-@{key} when (@key=primary),(@key=white),(@key=warn),(@key=notice),(@key=error),(@key=success){
+  //bookmark
+  .xl-color-bookmark-bg-@{key} when (@key=primary),(@key=white),(@key=warn),(@key=notice),(@key=error),(@key=success){
     background: linear-gradient(-135deg, transparent 10px, @value 0) top right !important;
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
-  .xl-bookmark-bg-@{key}-light when (@key=primary),(@key=white),(@key=warn),(@key=notice),(@key=error),(@key=success){
+  .xl-color-bookmark-bg-@{key}-light when (@key=primary),(@key=white),(@key=warn),(@key=notice),(@key=error),(@key=success){
     background: linear-gradient(-135deg, transparent 10px, fade(@value,@lightFade) 0) top right;
     background-size: 100% 100%;
     background-repeat: no-repeat;

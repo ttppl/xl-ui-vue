@@ -48,12 +48,12 @@ export default {
     },
 
     width: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
 
     height: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
 
@@ -145,26 +145,32 @@ export default {
     },
 
     widthC () {
+      if(isNaN(this.width)){
+        return this.width
+      }
       if (this.width === 0) {
         return 'auto'
       } else if (this.width > 1) {
         return this.width + 'px'
       } else if (this.width < 1) {
-        return this.width * 100 + '%'
+        return `${window.innerWidth * this.width}px`
       } else {
-        return '100%'
+        return window.innerWidth + 'px'
       }
     },
 
     heightC () {
+      if(isNaN(this.height)){
+        return this.height
+      }
       if (this.height === 0) {
         return 'auto'
       } else if (this.height > 1) {
         return this.height + 'px'
       } else if (this.height < 1) {
-        return this.height * 100 + '%'
+        return window.innerHeight * this.height + 'px'
       } else {
-        return '100%'
+        return window.innerHeight + 'px'
       }
     },
 
