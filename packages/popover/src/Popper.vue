@@ -3,6 +3,10 @@ import { h, Teleport, Transition, vShow, withDirectives, withCtx } from 'vue'
 import zIndexManager from '../../utils/zIndexManager'
 import Scroll from '../../scroll/src/Scroll'
 import whCompute from '../../mixins/whCompute'
+const TYPES={
+  primary : 'xl-popper-primary-style',
+  select : 'xl-popper-none-style'
+}
 export default {
   name: 'XlPropper',
 
@@ -42,7 +46,8 @@ export default {
     showArrow: {
       type: Boolean,
       default: true
-    }
+    },
+    minWidthFollowParent: Boolean
   },
 
   emits: ['update:modelValue', 'close','mouseover', 'mouseout'],
@@ -50,6 +55,7 @@ export default {
   data () {
     return {
       zIndex: 100,
+      parentwidth: '',
       popperPosition:{
         left: 0,
         right:0,
@@ -64,8 +70,7 @@ export default {
           bottom: 0,
         },
         arrowSize:10,//border-width
-        color:'white',
-        borderColor:'transparent transparent transparent transparent'
+        color:'white'
       },
       
       finalPosition:''
@@ -108,11 +113,11 @@ export default {
       if (this.height === 0) {
         return 'auto'
       } else if (this.height > 1) {
-        return this.height + 'px'
+        return `${this.height}px`
       } else if (this.height < 1) {
-        return window.innerHeight * this.height + 'px'
+        return `${window.innerHeight * this.height}px`
       } else {
-        return window.innerHeight + 'px'
+        return  `${window.innerHeight}px`
       }
     },
 
@@ -120,16 +125,16 @@ export default {
       const style = {}
       style.zIndex = this.zIndex
       if(this.popperPosition.left){
-        style.left = this.popperPosition.left + 'px'
+        style.left = `${this.popperPosition.left}px`
       }
       if(this.popperPosition.right){
-        style.right = this.popperPosition.right + 'px'
+        style.right = `${this.popperPosition.right}px`
       }
       if(this.popperPosition.top){
-        style.top = this.popperPosition.top + 'px'
+        style.top = `${this.popperPosition.top}px`
       }
       if(this.popperPosition.bottom){
-        style.bottom = this.popperPosition.bottom + 'px'
+        style.bottom = `${this.popperPosition.bottom}px`
       }
       return style
     },
@@ -143,6 +148,9 @@ export default {
       if (this.height !== 0) {
         style.height = this.heightC
       }
+      if (this.minWidthFollowParent) {
+        style.minWidth = `${this.parentwidth}px`
+      }
       return style
     },
 
@@ -150,20 +158,20 @@ export default {
       const style = {}
       style.zIndex = this.zIndex-1
       if(this.arrowAttr.position.left){
-        style.left = this.arrowAttr.position.left + 'px'
+        style.left = `${this.arrowAttr.position.left}px`
       }
       if(this.arrowAttr.position.right){
-        style.right = this.arrowAttr.position.right + 'px'
+        style.right = `${this.arrowAttr.position.right}px`
       }
       if(this.arrowAttr.position.top){
-        style.top = this.arrowAttr.position.top + 'px'
+        style.top = `${this.arrowAttr.position.top}px`
       }
       if(this.arrowAttr.position.bottom){
-        style.bottom = this.arrowAttr.position.bottom + 'px'
+        style.bottom = `${this.arrowAttr.position.bottom}px`
       }
       style.backgroundColor = this.arrowAttr.color
-      style.width = this.arrowAttr.arrowSize + 'px'
-      style.height = this.arrowAttr.arrowSize + 'px'
+      style.width = `${this.arrowAttr.arrowSize}px`
+      style.height = `${this.arrowAttr.arrowSize}px`
       return style
     }
   },
@@ -209,9 +217,12 @@ export default {
         const parentOffsetTop = parent.getBoundingClientRect().top
         const parentOffsetBottom = parent.getBoundingClientRect().bottom
         const parentwidth = parent.getBoundingClientRect().width
+        this.parentwidth = parentwidth
         const parentHeight = parent.getBoundingClientRect().height
 
-        const ownWidth = this.$refs.popper?.getBoundingClientRect().width
+        const ownWidthOrig = this.$refs.popper?.getBoundingClientRect().width
+        const ownWidth = this.minWidthFollowParent ? Math.max(ownWidthOrig, parentwidth) : ownWidthOrig
+
         const ownHeight = this.$refs.popper?.getBoundingClientRect().height
         const arrowSize = this.showArrow?this.arrowAttr.arrowSize:0
         if(this.position==='bottom'){
@@ -356,7 +367,7 @@ export default {
               null
             ), h(
               'div',
-              { class: [{ 'xl-popper-primary-style': this.type === 'primary' }, 'xl-popper'], style: this.contentStyle, ref: 'popperInner' },
+              { class: [TYPES[this.type], 'xl-popper'], style: this.contentStyle, ref: 'popperInner' },
               h(Scroll, null, this.$slots.default())
             )]
 
@@ -366,7 +377,7 @@ export default {
       }
     ), this.width === 0 || this.height === 0 ? h(
       'div',
-      { class: [{ 'xl-popper-primary-style': this.type === 'primary' }, 'xl-hidden-popper'], ref: 'popper', style: this.contentStyle },
+      { class: [TYPES[this.type] , 'xl-hidden-popper'], ref: 'popper', style: this.contentStyle },
       h(Scroll, null, this.$slots.default())
     ) : null])
   }
@@ -397,6 +408,9 @@ export default {
 }
 .xl-popper-primary-style{
   padding:@gap/2 @gap/2 @gap/2 @gap/2;
+  background-color: white;
+}
+.xl-popper-none-style{
   background-color: white;
 }
 .xl-hidden-popper{

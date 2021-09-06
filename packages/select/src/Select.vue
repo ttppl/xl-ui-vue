@@ -6,7 +6,7 @@
       <!-- <sp-icon :size="arrowSize" class="select-icon" :class="{'select-icon-checked':showSelectMenu}" type="arrowDown" /> -->
       <svg t="1629969520836" class="select-icon" :class="{'select-icon-checked':showSelectMenu}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2710" :width="arrowSize" :height="arrowSize"><path d="M132.577882 283.648c7.710118-8.041412 18.251294-12.589176 29.214118-12.589176 10.992941 0 21.534118 4.517647 29.214118 12.589176L514.349176 619.218824l318.644706-330.812236c7.710118-8.041412 18.251294-12.589176 29.214118-12.589176 11.023059 0 21.534118 4.517647 29.244235 12.589176 8.071529 8.372706 12.107294 19.335529 12.107294 30.328471 0 10.992941-4.065882 21.985882-12.107294 30.32847L543.533176 710.234353a40.448 40.448 0 0 1-29.214117 12.589176c-10.992941 0-21.504-4.517647-29.214118-12.589176L132.577882 344.304941a44.001882 44.001882 0 0 1 0-60.656941z" p-id="2711" fill="#bfbfbf"></path></svg>
     </div>
-    <transition name="tst-scale-down">
+    <!-- <transition name="tst-scale-down">
       <div v-show="showSelectMenu" class="xl-select-list" :style="{ width: '100%'}">
         <div class="xl-select-options">
           <slot>
@@ -16,7 +16,12 @@
           </slot>
         </div>
       </div>
-    </transition>
+    </transition> -->
+    <Popper v-model="showSelectMenu" type="select" min-width-follow-parent>
+      <div class="options">
+        <slot><div class="no-data-tip">No data</div></slot>
+      </div>
+    </Popper>
   </div>
 </template>
 
@@ -24,12 +29,14 @@
 import clickoutside from '../../utils/clickouside'
 import { computed } from 'vue'
 import {InputThemeType,themeType} from '../../types'
+import Popper from '../../popover/src/Popper.vue'
 export default {
   name: 'XlSelect',
 
   directives: { clickoutside },
 
   components: {
+    Popper
   },
 
   provide () {
@@ -41,6 +48,13 @@ export default {
           multiSelect: this.multiSelect,
           update: (nv) => {
             this.model=nv
+          }
+        }
+      }),
+      XlPopperTrigger: computed(() => {
+        return {
+          dom: () => {
+            return this.$refs.select
           }
         }
       })
@@ -240,7 +254,7 @@ export default {
 </script>
 
 <style lang="less">
-@import '../../styles/transition.less';
+// @import '../../styles/transition.less';
 .XlSelect{
   display: inline-block;
   position: relative;
@@ -279,30 +293,30 @@ export default {
       }
   }
 }
-.xl-select-list{
-  position: absolute;
-  background-color: transparent;
-  z-index: 9999;
-  >.xl-select-options{
-    background-color: white;
-    box-shadow: 0px 3px 21px 0px rgba(0, 0, 0, 0.17);
-    padding: 10px 0 10px 0;
-    >.no-data-tip{
-      padding: 10px 0 10px 0;
-      text-align: center;
-      cursor: default;
-    }
-  }
-}
-.xl-select-list::before{
-  content: '';
-  display: block;
-  width: 0;
-  height: 0;
-  border: 10px solid;
-  position: relative;
-  margin: 0 auto;
-  border-color: transparent transparent white;
-}
+// .xl-select-list{
+//   position: absolute;
+//   background-color: transparent;
+//   z-index: 9999;
+//   >.xl-select-options{
+//     background-color: white;
+//     box-shadow: 0px 3px 21px 0px rgba(0, 0, 0, 0.17);
+//     padding: 10px 0 10px 0;
+//     >.no-data-tip{
+//       padding: 10px 0 10px 0;
+//       text-align: center;
+//       cursor: default;
+//     }
+//   }
+// }
+// .xl-select-list::before{
+//   content: '';
+//   display: block;
+//   width: 0;
+//   height: 0;
+//   border: 10px solid;
+//   position: relative;
+//   margin: 0 auto;
+//   border-color: transparent transparent white;
+// }
 
 </style>
