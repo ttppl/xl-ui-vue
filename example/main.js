@@ -10,7 +10,7 @@ locales.keys().forEach(key => {
   const matched = key.match(/([A-Za-z0-9-_]+)\./i)
   if (matched && matched.length > 1) {
     // const name = matched[1]
-    console.log(locales(key).default.name);
+    console.log('commomcomp:',locales(key).default.name);
       app.component(locales(key).default.name, locales(key).default)
     
   }
@@ -19,4 +19,7 @@ locales.keys().forEach(key => {
 
 // app.use(xlInput)
 app.config.unwrapInjectedRef = true
+app.config.warnHandler = function() {
+  // `trace` 是组件的继承关系追踪
+}
 app.mount('#app')

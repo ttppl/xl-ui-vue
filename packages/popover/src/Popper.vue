@@ -3,6 +3,24 @@ import { h, Teleport, Transition, vShow, withDirectives, withCtx } from 'vue'
 import zIndexManager from '../../utils/zIndexManager'
 import Scroll from '../../scroll/src/Scroll'
 import whCompute from '../../mixins/whCompute'
+const GAP = 10
+const getMax = function(value) {//边缘距离判断函数，最小为10
+  return Math.max(value,GAP)
+}
+// const getMiddle = function(...arr){
+//   arr.sort((a,b)=>a>b?1:a<b?-1:0);
+//   if (arr.length % 2 == 0) {
+//     return (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2;
+//   } else {
+//     return arr[Math.floor(arr.length / 2)];
+//   }
+// }
+//直接固定三个数，减少判断次数
+const getMiddle = function(v1,v2,v3){
+  let arr=[v1,v2,v3]
+  arr.sort((a,b)=>a>b?1:a<b?-1:0);
+  return arr[1]
+}
 const TYPES={
   primary : 'xl-popper-primary-style',
   select : 'xl-popper-none-style'
@@ -37,6 +55,9 @@ export default {
       type:String,
       default:'bottom'
     },
+    alwaysGivenPosition:Boolean,//强制位置显示
+
+    alwaysInView:Boolean,//总是在窗口内
 
     popStyle: {
       type: Object,
@@ -47,7 +68,16 @@ export default {
       type: Boolean,
       default: true
     },
-    minWidthFollowParent: Boolean
+    //偏移量，右下为正，左上为负
+    offset:{
+      type:[Number,String],
+      default:0
+    },
+    offsetParent:{
+      type:[Number,String],
+      default:0
+    },
+    minWidthFollowParent: Boolean//select时使用
   },
 
   emits: ['update:modelValue', 'close','mouseover', 'mouseout'],
@@ -56,6 +86,9 @@ export default {
     return {
       zIndex: 100,
       parentwidth: '',
+      scrollWidth:0,
+      windowWidth:window.innerWidth,
+      windowHeight:window.innerHeight,
       popperPosition:{
         left: 0,
         right:0,
@@ -93,31 +126,33 @@ export default {
 
     widthC () {
       if(isNaN(this.width)){
-        return this.width
+        const calcWidth = this.windowWidth * this.width.toString().trim().slice(0,-1)/100
+        return this.width.toString().endsWith('%')?`${this.alwaysInView?Math.min(calcWidth,this.windowWidth-this.scrollWidth):calcWidth}px`:this.width.toString()
       }
-      if (this.width === 0) {
+      if (this.width == 0) {
         return 'auto'
       } else if (this.width > 1) {
-        return this.width + 'px'
+        return `${this.alwaysInView?Math.min(this.width,this.windowWidth-this.scrollWidth):this.width}px`
       } else if (this.width < 1) {
-        return `${window.innerWidth * this.width}px`
+        return `${this.windowWidth * this.width}px`
       } else {
-        return window.innerWidth + 'px'
+        return `${this.windowWidth-this.scrollWidth}px`
       }
     },
 
     heightC () {
       if(isNaN(this.height)){
-        return this.height
+        const calcHeight = this.windowHeight * this.height.toString().trim().slice(0,-1)/100
+        return this.height.toString().endsWith('%')?`${this.alwaysInView?Math.min(calcHeight,this.windowHeight-this.scrollWidth):calcHeight}px`:this.height.toString()
       }
-      if (this.height === 0) {
+      if (this.height == 0) {
         return 'auto'
       } else if (this.height > 1) {
-        return `${this.height}px`
+        return `${this.alwaysInView?Math.min(this.height,this.windowHeight-this.scrollWidth):this.height}px`
       } else if (this.height < 1) {
-        return `${window.innerHeight * this.height}px`
+        return `${this.windowHeight * this.height}px`
       } else {
-        return  `${window.innerHeight}px`
+        return  `${this.windowHeight-this.scrollWidth}px`
       }
     },
 
@@ -127,25 +162,23 @@ export default {
       if(this.popperPosition.left){
         style.left = `${this.popperPosition.left}px`
       }
-      if(this.popperPosition.right){
-        style.right = `${this.popperPosition.right}px`
-      }
       if(this.popperPosition.top){
         style.top = `${this.popperPosition.top}px`
       }
-      if(this.popperPosition.bottom){
-        style.bottom = `${this.popperPosition.bottom}px`
-      }
+      // style.transform = `translate(${this.popperPosition.left||0}px,${this.popperPosition.top||0}px)`
+      
       return style
     },
 
     contentStyle () {
       const style = this.popStyle || {}
       style.zIndex = this.zIndex
-      if (this.width !== 0) {
+      if (this.width != 0) {
         style.width = this.widthC
+      }else{
+        style.maxWidth=`${this.windowWidth-this.scrollWidth}px`
       }
-      if (this.height !== 0) {
+      if (this.height != 0) {
         style.height = this.heightC
       }
       if (this.minWidthFollowParent) {
@@ -178,6 +211,7 @@ export default {
 
   created () {
     this.zIndex = zIndexManager.nextIndex()
+    this.scrollWidth = this.getScrollWidth()
   },
 
   updated () {
@@ -212,6 +246,9 @@ export default {
       }
       const parent = this.xlPopperTrigger.dom()
       if (parent) {
+        this.finalPosition = this.position
+        this.windowWidth = window.innerWidth
+        this.windowHeight = window.innerHeight
         const parentOffetLeft = parent.getBoundingClientRect().left
         const parentOffsetRight = parent.getBoundingClientRect().right
         const parentOffsetTop = parent.getBoundingClientRect().top
@@ -220,96 +257,171 @@ export default {
         this.parentwidth = parentwidth
         const parentHeight = parent.getBoundingClientRect().height
 
-        const ownWidthOrig = this.$refs.popper?.getBoundingClientRect().width
+        const ownWidthOrig = this.$refs.popper?.getBoundingClientRect().width||this.widthC.slice(0,-2)/1
         const ownWidth = this.minWidthFollowParent ? Math.max(ownWidthOrig, parentwidth) : ownWidthOrig
 
-        const ownHeight = this.$refs.popper?.getBoundingClientRect().height
+        const ownHeight = this.$refs.popper?.getBoundingClientRect().height||this.heightC.slice(0,-2)/1
+        const windowHeight = window.innerHeight - this.scrollWidth
+        const windowWidth = window.innerWidth - this.scrollWidth
+
+        //剩余空间
+        const restLeft = parentOffetLeft
+        const restRight = windowWidth - parentOffsetRight
+        const restTop = parentOffsetTop
+        const restBottom = windowHeight - parentOffsetBottom
+
         const arrowSize = this.showArrow?this.arrowAttr.arrowSize:0
-        if(this.position==='bottom'){
-          this.finalPosition = (parentOffsetBottom + ownHeight + arrowSize)>window.innerHeight?'top':'bottom'
-        }
-        if(this.position==='top'){
-          this.finalPosition = (parentOffsetTop - ownHeight - arrowSize)<0?'bottom':'top'
-        }
-        if(this.position==='left'){
-          if((parentOffetLeft - ownWidth - arrowSize)<0){
-            if((parentOffsetRight + ownWidth + arrowSize)>window.innerWidth){
-              this.finalPosition = (parentOffsetBottom + ownHeight + arrowSize)>window.innerHeight?'top':'bottom'
-            }else{
-              this.finalPosition = 'right'
-            }
+
+        const offset = isNaN(this.offset/1)?0:this.offset/1
+        const offsetParent = isNaN(this.offsetParent/1)?0:this.offsetParent/1
+        //是否横向矩形，横向矩形超出后位置落入上下，纵向矩形落入左右方向
+        const isRect =  Math.max((restLeft - ownWidth),(restRight - ownWidth)) < Math.max((restTop - ownHeight),(restBottom - ownHeight))
+
+        if(!this.alwaysGivenPosition && this.position==='bottom'){
+          if(restBottom > (ownHeight + arrowSize + offsetParent)){
+              this.finalPosition = 'bottom'
+          }else if(restTop > (ownHeight + arrowSize + offsetParent)){
+            this.finalPosition = 'top'
           }else{
+            if(isRect){
+              this.finalPosition = restBottom > restTop?'bottom':'top'//上下空间哪个大放哪边
+            }else{
+              this.finalPosition = restLeft>restRight?'left':'right'
+            }
+          } 
+        }
+        if(!this.alwaysGivenPosition && this.position==='top'){
+          if(restTop > (ownHeight + arrowSize + offsetParent)){
+            this.finalPosition = 'top'
+          }else if(restBottom > (ownHeight + arrowSize + offsetParent)){
+              this.finalPosition = 'bottom'
+          }else{
+            if(isRect){
+              this.finalPosition = restBottom > restTop?'bottom':'top'//上下空间哪个大放哪边
+            }else{
+              this.finalPosition = restLeft>restRight?'left':'right'
+            }
+          } 
+        }
+        if(!this.alwaysGivenPosition && this.position==='left'){
+          if(restLeft > (ownWidth + arrowSize + offsetParent)){
             this.finalPosition = 'left'
+          }else if(restRight > (ownWidth + arrowSize + offsetParent)){
+            this.finalPosition = 'right'
+          }else{
+            if(isRect){
+              this.finalPosition = restBottom > restTop?'bottom':'top'
+            }else{
+              this.finalPosition = restLeft > restRight?'left':'right'
+            }
           }
         }
-        if(this.position==='right'){
-          if((parentOffsetRight + ownWidth + arrowSize)>window.innerWidth){
-            if((parentOffetLeft - ownWidth - arrowSize)<0){
-              this.finalPosition = (parentOffsetBottom + ownHeight + arrowSize)>window.innerHeight?'top':'bottom'
-            }else{
-              this.finalPosition = 'left'
-            }
-          }else{
+        if(!this.alwaysGivenPosition && this.position==='right'){
+          if(restRight > (ownWidth + arrowSize + offsetParent)){
             this.finalPosition = 'right'
+          }else if(restLeft > (ownWidth + arrowSize + offsetParent)){
+            this.finalPosition = 'left'
+          }else{
+            if(isRect){
+              this.finalPosition = restBottom > restTop?'bottom':'top'
+            }else{
+              this.finalPosition = restLeft > restRight?'left':'right'
+            }
           }
         }
 
         // console.log("finaPosition:",this.finalPosition);
         const position = {transition:'tst-scale-down'}
+        const getInvewWidth = (value)=>{
+          return this.alwaysInView?getMiddle(GAP,value,getMax(windowWidth - ownWidth)):value
+        }
+        const getInvewHeight = (value)=>{
+          return this.alwaysInView?getMiddle(GAP,value,getMax(windowHeight - ownHeight)):value
+        }
         if(this.finalPosition === 'bottom'){
-          const maxOffSetLeft = window.innerWidth - ownWidth
-          let left = parentOffetLeft + parentwidth/2 - ownWidth/2
-          left = left>0?left:0
-          position.left = maxOffSetLeft < left?maxOffSetLeft : left
-          position.top = parentOffsetBottom + arrowSize
+          const left = parentOffetLeft + parentwidth/2 - ownWidth/2 + offset
+          const top = parentOffsetBottom + arrowSize + offsetParent
+          if(this.showArrow){
+            const minLeft = getInvewWidth(parentOffetLeft + parentwidth/2 - ownWidth + arrowSize/1.5)
+            const maxLeft = getInvewWidth(parentOffsetRight - parentwidth/2 - arrowSize/1.5)
+            const minTop = getInvewHeight(parentOffsetBottom+arrowSize)
+            const maxTop = getInvewHeight(windowHeight - ownHeight - arrowSize)
+            position.left = getMiddle(minLeft,left,maxLeft)
+            position.top = getMiddle(minTop, top,maxTop)
+          }else{
+            position.left = getInvewWidth(left)
+            position.top = getInvewHeight(top)
+          }
           if(this.showArrow){
             const arrow = {}
             arrow.top=-(arrowSize/2)
-            arrow.left = parentOffetLeft-left+parentwidth/2-arrowSize/2
+            arrow.left = parentOffetLeft-position.left+parentwidth/2-arrowSize/2
             this.arrowAttr.position=arrow
           }
         }
         if(this.finalPosition === 'top'){
-          const maxOffSetLeft = window.innerWidth - ownWidth
-          let left = parentOffetLeft + parentwidth/2 - ownWidth/2
-          left = left>0?left:0
-          position.left = maxOffSetLeft < left?maxOffSetLeft : left
-          position.top = parentOffsetTop - arrowSize - ownHeight
           position.transition='tst-scale-up'
+          const left = parentOffetLeft + parentwidth/2 - ownWidth/2 + offset
+          const top = parentOffsetTop - ownHeight - arrowSize + offsetParent
+          if(this.showArrow){
+            const minLeft = getInvewWidth(parentOffetLeft + parentwidth/2 - ownWidth + arrowSize/1.5)
+            const maxLeft = getInvewWidth(parentOffsetRight - parentwidth/2 - arrowSize/1.5)
+            const minTop = getInvewHeight(GAP)
+            const maxTop = getInvewHeight(parentOffsetTop - ownHeight - arrowSize)
+            position.left = getMiddle(minLeft,left,maxLeft)
+            position.top = getMiddle(minTop, top,maxTop)
+          }else{
+            position.left = getInvewWidth(left)
+            position.top = getInvewHeight(top)
+          }
           if(this.showArrow){
             const arrow = {}
             arrow.bottom=-(arrowSize/2)
-            arrow.left = parentOffetLeft-left+parentwidth/2-arrowSize/2
+            arrow.left = parentOffetLeft-position.left+parentwidth/2-arrowSize/2
             this.arrowAttr.position=arrow
           }
         }
         if(this.finalPosition === 'left'){
-          let left = parentOffetLeft - ownWidth-arrowSize
-          left = left>0?left:0
-          position.left = left
-          const maxOffsetTop = window.innerHeight - ownHeight
-          const top = parentOffsetTop + parentHeight/2 - ownHeight/2
-          position.top = top > maxOffsetTop?maxOffsetTop:top
           position.transition='tst-scale-left'
+          const left = parentOffetLeft - ownWidth - arrowSize + offset
+          const top = parentOffsetTop + parentHeight/2 - ownHeight/2 + offsetParent
+          if(this.showArrow){
+            const minLeft = getInvewWidth(GAP)
+            const maxLeft = getInvewWidth(parentOffetLeft - ownWidth - arrowSize)
+            const minTop = getInvewHeight(parentOffsetTop + parentHeight/2 - ownHeight + arrowSize/1.5)
+            const maxTop = getInvewHeight(parentOffsetBottom - parentHeight/2  - arrowSize/1.5)
+            position.left = getMiddle(minLeft,left,maxLeft)
+            position.top = getMiddle(minTop, top,maxTop)
+          }else{
+            position.left = getInvewWidth(left)
+            position.top = getInvewHeight(top)
+          }
           if(this.showArrow){
             const arrow = {}
             arrow.right=-(arrowSize/2)
-            arrow.top =  parentOffsetTop- top +parentHeight/2-arrowSize/2
+            arrow.top =  parentOffsetTop- position.top +parentHeight/2-arrowSize/2
             this.arrowAttr.position=arrow
           }
         }
         if(this.finalPosition === 'right'){
-          let left = parentOffsetRight + arrowSize
-          left = left>0?left:0
-          position.left = left
-          const maxOffsetTop = window.innerHeight - ownHeight
-          const top = parentOffsetTop + parentHeight/2 - ownHeight/2
-          position.top = top > maxOffsetTop?maxOffsetTop:top
           position.transition='tst-scale-right'
+          const left = parentOffsetRight + arrowSize
+          const top = parentOffsetTop + parentHeight/2 - ownHeight/2 + offsetParent
+          if(this.showArrow){
+            const minLeft = getInvewWidth(parentOffsetRight + arrowSize)
+            const maxLeft = getInvewWidth(windowWidth - ownWidth - arrowSize)
+            const minTop = getInvewHeight(parentOffsetTop + parentHeight/2 - ownHeight + arrowSize/1.5)
+            const maxTop = getInvewHeight(parentOffsetBottom - parentHeight/2  - arrowSize/1.5)
+            position.left = getMiddle(minLeft,left,maxLeft)
+            position.top = getMiddle(minTop, top,maxTop)
+          }else{
+            position.left = getInvewWidth(left)
+            position.top = getInvewHeight(top)
+          }
           if(this.showArrow){
             const arrow = {}
             arrow.left=-(arrowSize/2)
-            arrow.top =  parentOffsetTop- top +parentHeight/2-arrowSize/2
+            arrow.top =  parentOffsetTop- position.top +parentHeight/2-arrowSize/2
             this.arrowAttr.position=arrow
           }
         }
@@ -342,6 +454,16 @@ export default {
 
     mouseout (e) {
       this.$emit('mouseout', e)
+    },
+    getScrollWidth() {
+      var noScroll, scroll, oDiv = document.createElement("DIV");
+      oDiv.style.cssText = "position:absolute; top:9999px; width:100px; height:100px; overflow:hidden;";        
+      noScroll = document.body.appendChild(oDiv).clientWidth;
+      oDiv.style.overflowY = "scroll";
+      scroll = oDiv.clientWidth;
+      document.body.removeChild(oDiv);
+      return (noScroll-scroll)+20;
+        // return window.innerWidth-document.body.clientWidth
     }
   },
 
@@ -375,7 +497,7 @@ export default {
           [[vShow, this.model]]
         )])
       }
-    ), this.width === 0 || this.height === 0 ? h(
+    ), isNaN(this.width)||this.width === 0 || isNaN(this.height)||this.height === 0 ? h(
       'div',
       { class: [TYPES[this.type] , 'xl-hidden-popper'], ref: 'popper', style: this.contentStyle },
       h(Scroll, null, this.$slots.default())
@@ -404,6 +526,7 @@ export default {
 }
 .xl-popper{
   position: relative;
+  box-sizing: border-box;
   overflow: hidden;
 }
 .xl-popper-primary-style{
@@ -415,7 +538,9 @@ export default {
 }
 .xl-hidden-popper{
   position: absolute;
+  box-sizing: border-box;
   top:0;
+  overflow: hidden;
   visibility: hidden;
   z-index: -100;
 }

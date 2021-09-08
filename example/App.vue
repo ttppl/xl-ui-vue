@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="main">
+      <div class="none"></div>
         <button @click="popleft=true">left</button>
         <XlPopup v-model="popleft" direction="left" :mask="false" :width="50" :height="50" >
           <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
@@ -78,7 +79,8 @@
       </div>
 
       <div style="margin-top:20px">
-        <XlPopover height="0.1" v-model="popover" inline>
+        <XlPopover position="bottom" height="400" width="200" v-model="popover" offset-parent="100" offset="-200"
+          always-in-view  :show-arrow="false" inline>
           <template #reference>
             <button @click="popover=!popover">collapse</button>
           </template>
@@ -86,11 +88,11 @@
             <div>111111111</div>
             <div>111111111</div>
             <div>111111111</div>
-            <div>111111111</div>
+            <!-- <div>11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</div> -->
         </XlPopover>
       </div>
       <div style="margin-top:20px">
-        <XlPopover position="top" v-model="popoverTop" inline>
+        <XlPopover position="top" offset="1000" :show-arrow='true' v-model="popoverTop" inline>
           <template #reference>
             <button @click="popoverTop=!popoverTop">collapse-top</button>
           </template>
@@ -99,6 +101,26 @@
             <div>111111111</div>
             <div>111111111</div>
             <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <!-- <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div>
+            <div>111111111</div> -->
         </XlPopover>
       </div>
       <div style="margin-top:20px">
@@ -114,7 +136,7 @@
         </XlPopover>
       </div>
       <div style="margin-top:20px">
-        <XlPopover position="right" trigger="hover" v-model="popoverright" inline>
+        <XlPopover position="right" offset="200"  trigger="click" width="200" v-model="popoverright" inline>
           <template #reference>
             <button @click="popoverright=!popoverright">collapse-right</button>
           </template>
@@ -122,7 +144,7 @@
           <div>111111111</div>
           <div>111111111</div>
           <div>111111111</div>
-          <div>111111111</div>
+          <div>1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111112</div>
         </XlPopover>
       </div>
       <div>
@@ -151,6 +173,7 @@
           <XlTableColumn column-name = 'd'></XlTableColumn>
         </XlTable>
       </div>
+      <div class="none"></div>
   </div>
 </template>
 
@@ -212,6 +235,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.none{
+  height:3000px;
 }
 .warn{
   background-color: burlywood;

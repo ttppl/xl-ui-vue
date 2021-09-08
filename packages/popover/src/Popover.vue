@@ -1,7 +1,9 @@
 <template>
   <div ref="popover" @[popTrigger]="show" @mouseout="mouseout" v-clickoutside="closePopOutSide" class="XlPopover" :class="{'xl-inline-block':inline}">
       <slot name="reference" />
-    <popper ref="popper" v-model="model" :position="position" :show-arrow="showArrow" :width="width" :height="height" :pop-style="popStyle" 
+    <popper ref="popper" v-model="model" :position="position" :show-arrow="showArrow" :offset="offset" :offset-parent="offsetParent"
+            :width="width" :height="height" :pop-style="popStyle" 
+            :always-Given-Position="alwaysGivenPosition" :always-In-View="alwaysInView"
             @mouseover="mouseover" @mouseout="mouseout"
             @close="closePop">
       <slot />
@@ -46,7 +48,14 @@ export default {
       type: [Number,String],
       default: 0
     },
-
+    offset:{
+      type:[Number,String],
+      default:0
+    },
+    offsetParent:{
+      type:[Number,String],
+      default:0
+    },
     trigger: {
       type: String,
       default: 'click'
@@ -69,7 +78,10 @@ export default {
     position:{
       type:String,
       default:'bottom'
-    }
+    },
+    alwaysGivenPosition:Boolean,//强制位置显示
+
+    alwaysInView:Boolean,//总是在窗口内
   },
 
   emits: ['update:modelValue'],
