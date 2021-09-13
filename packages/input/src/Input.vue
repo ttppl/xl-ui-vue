@@ -9,6 +9,7 @@
 
 <script type="text/ecmascript-6">
 import {InputThemeType} from '../../types'
+import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlInput',
 
@@ -16,7 +17,7 @@ export default {
 
   components: {
   },
-
+  mixins:[whCompute],
   props: {
     type: {
       type: String,
@@ -31,11 +32,6 @@ export default {
     row: {
       type: String,
       default: '3'
-    },
-
-    width: { // 0-1为百分比，>1为px
-      type: [Number, String],
-      default: 0
     },
 
     height: {
@@ -84,36 +80,6 @@ export default {
 
       set (val) {
         this.$emit('update:modelValue', val)
-      }
-    },
-
-    widthC () {
-      if(isNaN(this.width)){
-        return this.width
-      }
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return `${this.width}px`
-      } else if (this.width < 1) {
-        return `${this.width*100}%`
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if(isNaN(this.height)){
-        return this.height
-      }
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return `${this.height}px`
-      } else if (this.height < 1) {
-        return `${this.height*100}%`
-      } else {
-        return '100%'
       }
     },
 

@@ -35,14 +35,11 @@
           <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
         </XlPopup>
         <button  @click="popcenter=true">center</button>
-        <XlPopup type="dialog" v-model="popcenter" direction="center" :mask="false" :width="50" :height="50" >
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
+        <XlPopup type="dialog" v-model="popcenter"   :mask="false" title="111" :width="80" :height="20" >
+          11111111111111111111111111111111111111111111111111111111111111111111111111111
         </XlPopup>     
       </div>
+      
       <div>
         {{choose}} 
         <XlChooseGroup class="text-left" icon-style-type='warn' light-style v-model="chooseradio" icon-type="radio" type="checkbox">
@@ -160,17 +157,26 @@
         <XlIdentify v-model="code"></XlIdentify>
       </div>
       <div>
-        <XlButton light-style >button</XlButton>
+        <XlButton type="primary" plain >button</XlButton>
+        <XlButton type="primary" plain light-style>button</XlButton>
+        <XlButton type="primary" light-style >button</XlButton>
+        <XlButton type="primary"  >button</XlButton>
       </div>
       <div>
         <XlTooltip width="50">2111111111111111111111111111111111111111111111111</XlTooltip>
       </div>
       <div class="gap">
-        <XlTable :data-list="dataList">
-          <XlTableColumn column-name = 'a'></XlTableColumn>
+        <XlTable type="notice" :data-list="dataList" show-arrow column-height='70'>
+          <XlTableColumn column-name = 'a' width="100"></XlTableColumn>
           <XlTableColumn column-name = 'b'></XlTableColumn>
           <XlTableColumn column-name = 'c'></XlTableColumn>
           <XlTableColumn column-name = 'd'></XlTableColumn>
+          <template #expand="row">
+            <div>{{row.$index}}</div>
+            <div>{{row.a}}</div>
+            <div>{{row.b}}</div>
+
+          </template>
         </XlTable>
       </div>
       <div class="none"></div>
@@ -202,10 +208,26 @@ export default {
       bookmark:"111",
       code:'',
       dataList:[{
-        a:'aaa',
+        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
         b:'bbb',
-        c:'ccc',
-        d:'ddd',
+        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+      },
+      {
+        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b:'bbb',
+        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+      },{
+        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b:'bbb',
+        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+      },{
+        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b:'bbb',
+        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
       }]
     }
   },

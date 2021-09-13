@@ -1,7 +1,7 @@
 <template>
   <div :class="['XlTooltip', 'xl-inline-block']" @mouseover="show" @mouseout="mouseout">
     <div ref="tootip" :style="style" :class="[{'xl-pointer':model,'xl-inline-block':inline},'xl-text-ellipsis']"><slot /></div>
-    <Popper v-model="model" :position="position" :show-arrow="true" @mouseover="show" @mouseout="mouseout" @close="closePop">
+    <Popper v-model="model" always-in-view :position="position" :show-arrow="true" @mouseover="show" @mouseout="mouseout" @close="closePop">
       <slot name="tip"><slot /></slot>
     </Popper>
   </div>

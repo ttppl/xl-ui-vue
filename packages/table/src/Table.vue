@@ -1,9 +1,11 @@
 <script type="text/ecmascript-6">
 import { h, defineComponent, vShow, withDirectives, computed } from 'vue'
 import Tooltip from '../../tooltip/src/Tooltip'
-
+import {themeType} from '../../types'
 export default defineComponent({
   name: 'XlTable',
+
+  nameSpace: 'XlTable',
 
   components: {
     Tooltip
@@ -35,8 +37,8 @@ export default defineComponent({
     showArrow: Boolean,
 
     border: {
-      type: String,
-      default: 'border'
+      type: Boolean,
+      default: true
     },
 
     width: {
@@ -49,17 +51,22 @@ export default defineComponent({
       default: ''
     },
 
+    columnHeight: {
+      type: [String, Number],
+      default: ''
+    },
+
     popHeaderStyle: {
       type: Object,
       default: () => {
-        return {}
+        return null
       }
     },
 
     popDataStyle: {
       type: Object,
       default: () => {
-        return {}
+        return null
       }
     }
 
@@ -73,48 +80,38 @@ export default defineComponent({
   },
 
   computed: {
-    $lp () {
-      return function (name) {
-        if (!name) {
-          return name
-        }
-        return this.$t('table.' + name)
-      }
-    },
 
     headerClass () {
       const classes = []
-      if (this.type === 'primary') {
-        classes.push('sp-color-bg-3')
-      }
-      if (this.border === 'border') {
-        classes.push('border')
+      classes.push(themeType(this.type,'bg',true))
+      if (this.border) {
+        classes.push('xl-table-border')
       }
       return classes
     },
 
     dataClass () {
       const classes = []
-      if (this.border === 'border') {
-        classes.push('border')
+      if (this.border) {
+        classes.push('xl-table-border')
       }
       return classes
     }
   },
 
   methods: {
-    style (width) {
+    calcWidthStyle (width) {
       if (Array.isArray(width)) {
         return width.reduce((pre, cur) => pre + cur)
       }
-      return { width: width !== 0 ? width + 'px' : 'auto' }
+      return { width: width !== 0 ? width + 'px' : 'auto', height: `${this.columnHeight}px` }
     },
 
     getHeader () {
       const headChildren = []
       const renderHearder = (c, colspan) => {
-        headChildren.push(h('td', { class: [...this.headerClass], colspan: colspan, style: Object.assign(this.style(c.width), this.popHeaderStyle) },
-          h('div', { class: 'head-column flex-center', style: this.style(c.width) }, c.header ? c.header(h) : (c.label || c.columnName))))
+        headChildren.push(h('td', { class: [...this.headerClass], colspan: colspan, style: Object.assign(this.calcWidthStyle(c.width), this.popHeaderStyle) },
+          h('div', { class: 'xl-table-head-column xl-table-column-flex-center', style: this.calcWidthStyle(c.width) }, c.header ? c.header(h) : (c.label || c.columnName))))
       }
       this.columns.forEach(c => {
         if (c.render instanceof Array) {
@@ -123,6 +120,9 @@ export default defineComponent({
           renderHearder(c)
         }
       })
+      if (this.$slots.expand && this.showArrow) {
+          headChildren.push(h('td', { width: '30px',class:['xl-table-arrow','xl-color-bg-white'] }))
+      }
       return h('thead', { class: 'table-head' }, h('tr', null, headChildren))
     },
 
@@ -131,10 +131,9 @@ export default defineComponent({
       this.dataList.forEach((d, index) => {
         const trChildren = []
         const renderDataColumn = (c, width, slot, render) => {
-          trChildren.push(h('td', { class: [...this.dataClass], style: Object.assign(this.style(width), this.popDataStyle), onClick: (e) => { this.click(d, e) } },
-            h('div', { class: [{ 'default-column': !slot }, 'flex-center data-column ellipsis'], style: this.style(width) },
-              !slot ? h(Tooltip, { width: width }, render(h, d, index))
-                : h('div', { class: 'flex-100' }, render(h, d, index)))))
+          trChildren.push(h('td', { class: [...this.dataClass], style: Object.assign(this.calcWidthStyle(width), this.popDataStyle), onClick: (e) => { this.click(d, e) } },
+            h('div', { class: ['xl-table-column-flex-center xl-table-data-column'], style: this.calcWidthStyle(width) },
+              !slot ? h(Tooltip, { width: width }, render(h, d, index)) : h('div', null, render(h, d, index)))))
         }
         this.columns.forEach(c => {
           if (typeof c.render === 'function') {
@@ -146,13 +145,13 @@ export default defineComponent({
           }
         })
         if (this.$slots.expand && this.showArrow) {
-          trChildren.push(h('td', { class: ['arrow', { 'arrow-down': d.expand }], width: '30px', onClick: () => { this.expand(d) } },
-            h('img', { src: this.arrowDown })))
+          trChildren.push(h('td', { class: ['xl-table-arrow'], width: '30px', onClick: () => { this.expand(d) } },
+            h('img', { class: ['xl-table-arrow-init', { 'xl-table-arrow-down': d.expand }], src: this.arrowDown,width:20,height:20 })))
         }
         children.push(h('tr', {}, trChildren))
         if (this.$slots.expand) {
           d.$index = index
-          children.push(withDirectives(h('tr', {}, h('td', { class: [...this.dataClass, 'expand data-column'], style: this.popDataStyle, colspan: this.getExpandCols() },
+          children.push(withDirectives(h('tr', {}, h('td', { class: [...this.dataClass, 'xl-table-expand xl-table-data-column'], style: this.popDataStyle, colspan: this.getExpandCols() },
             this.$slots.expand(d))), [[vShow, d.expand]]))
         }
       })
@@ -173,7 +172,6 @@ export default defineComponent({
     },
 
     expand (d) {
-      console.log(this.$refs.table.scrollWidth, this.$refs.table.clientWidth)
       d.expand = !d.expand
     },
 
@@ -185,32 +183,31 @@ export default defineComponent({
   },
 
   render () {
-    return h('div', { ref: 'table', class: 'SpTableDIY table-container', style: { width: typeof this.width === 'number' ? `${this.width}px` : this.width, height: this.height } },
-      [h('div', { class: 'hiddenc-column' }, this.$slots.default()),
-        h('table', { class: 'table', border: 0, cellspacing: 0, cellpadding: 0},
+    return h('div', { ref: 'table', class: ['XlTable'], style: { width: typeof this.width === 'number' ? `${this.width + 20}px` : this.width, height: this.height } },
+      [h('div', { class: 'xl-table-hiddenc-column' }, this.$slots.default()),
+        h('table', { class: 'xl-table', border: 0, cellspacing: 0, cellpadding: 0, style: { width: '100%' } },
           [this.getHeader(), this.getColumnsrender()])])
   }
 })
 </script>
 
 <style scoped lang="less">
-@gap:20px;
-.SpTableDIY{
+.XlTable{
+  width:auto;
   overflow-x: auto;
   overflow-y: hidden;
-  .hiddenc-column{
+  .xl-table-hiddenc-column{
     visibility: hidden;
     position: absolute;
     z-index: -100;
   }
-  .table{
-    overflow:hidden;
-    width: 100%;
+  .xl-table{
+    width: auto;
     border-collapse: collapse;
-    .border{
+    .xl-table-border{
       border:1px solid #DBDBDB;
     }
-    .head-column{
+    .xl-table-head-column{
       min-height: 60px;
       font-size: 18px;
       font-family: Arial;
@@ -218,37 +215,35 @@ export default defineComponent({
       text-align: center;
       white-space: nowrap;
     }
-    .data-column{
+    .xl-table-data-column{
       font-size: 15px;
       font-family: Arial;
       font-weight: bold;
       vertical-align: middle;
       text-align: center;
       min-height: 60px;
-      padding:0 @gap/3;
-      box-sizing: border-box;
+      padding:5px 8px;
+      text-overflow:ellipsis;
     }
-    .flex-center{
+    .xl-table-column-flex-center{
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .ellipsis{
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .arrow{
-      vertical-align: middle;
-      transition-duration: .5s;
+    .xl-table-arrow{
+      position:sticky;
+      right:0;
+      background-color: white;
       cursor: pointer;
-    }
-    .arrow-down{
-      transform: rotate(180deg);
-      transition-duration: .5s;
-    }
-    .expand{
-      padding: 0;
+      // border: 1px solid white;
+      .xl-table-arrow-init{
+        vertical-align: middle;
+        transition-duration: .5s;
+      }
+      .xl-table-arrow-down{
+        transform: rotate(180deg);
+        transition-duration: .5s;
+      }
     }
   }
 }

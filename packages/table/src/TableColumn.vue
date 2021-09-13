@@ -37,7 +37,6 @@ export default {
         columnName: this.columnName,
         label: this.label || this.columnName,
         width: this.width,
-        customize: !!this.$slots.default,
         header: this.$slots.header ? () => { return this.$slots.header() } : null,
         render: (h, data, $index) => {
           data.$index = $index
@@ -50,7 +49,6 @@ export default {
         columnName: this.columnName,
         label: this.label || this.columnName,
         width: [old.width, this.width],
-        customize: [old.slot, !!this.$slots.default],
         header: this.$slots.header ? () => { return this.$slots.header() } : old.header,
         render: [old.render, (h, data, $index) => {
           data.$index = $index

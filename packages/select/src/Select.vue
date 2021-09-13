@@ -30,6 +30,7 @@ import clickoutside from '../../utils/clickouside'
 import { computed } from 'vue'
 import {InputThemeType,themeType} from '../../types'
 import Popper from '../../popover/src/Popper.vue'
+import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlSelect',
 
@@ -38,6 +39,7 @@ export default {
   components: {
     Popper
   },
+  mixins:[whCompute],
 
   provide () {
     return {
@@ -163,36 +165,6 @@ export default {
         }
       }
       return null
-    },
-
-    widthC () {
-      if(isNaN(this.width)){
-        return this.width
-      }
-      if (this.width === 0) {
-        return 'auto'
-      } else if (this.width > 1) {
-        return `${this.width}px`
-      } else if (this.width < 1) {
-        return `${this.width*100}%`
-      } else {
-        return '100%'
-      }
-    },
-
-    heightC () {
-      if(isNaN(this.height)){
-        return this.height
-      }
-      if (this.height === 0) {
-        return 'auto'
-      } else if (this.height > 1) {
-        return `${this.height}px`
-      } else if (this.height < 1) {
-        return `${this.height*100}%`
-      } else {
-        return '100%'
-      }
     },
 
     style () {
