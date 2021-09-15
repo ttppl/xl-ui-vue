@@ -4,5 +4,4 @@ Popup.install = (App) => {
   App.component(Popup.name, Popup)
 }
 
-
 export default Popup

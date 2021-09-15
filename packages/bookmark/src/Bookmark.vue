@@ -7,28 +7,29 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {themeType} from '../../types'
+import { themeType } from '../../types'
 import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlBookmark',
-  
-  mixins:[whCompute],
-  
+
   components: {
   },
-  inject:['XlBookmarkGroup'],
+
+  mixins: [whCompute],
+  inject: ['XlBookmarkGroup'],
 
   props: {
     modelValue: {
       type: String,
       default: ''
     },
+
     type: {
       type: String,
       default: 'primary'
     },
 
-    lightStyle:Boolean,
+    lightStyle: Boolean,
 
     label: {
       type: String,
@@ -43,12 +44,12 @@ export default {
     },
 
     to: {
-      type: [String,Object],
+      type: [String, Object],
       default: ''
     }
   },
 
-  emits: ['update:modelValue','click-handle'],
+  emits: ['update:modelValue', 'click-handle'],
 
   data () {
     return {
@@ -57,18 +58,19 @@ export default {
   },
 
   computed: {
-    xlBookmarkGroup(){
-      return this.XlBookmarkGroup.value||this.XlBookmarkGroup
+    xlBookmarkGroup () {
+      return this.XlBookmarkGroup.value || this.XlBookmarkGroup
     },
+
     isGroup () {
       return this.xlBookmarkGroup.name === 'XlBookmarkGroup'
     },
 
-    isLight(){
-      return this.isGroup?this.xlBookmarkGroup.lightStyle:this.lightStyle
+    isLight () {
+      return this.isGroup ? this.xlBookmarkGroup.lightStyle : this.lightStyle
     },
 
-    themeType(){
+    themeType () {
       return this.isGroup ? this.xlBookmarkGroup.type : this.type
     },
 
@@ -82,17 +84,19 @@ export default {
       }
     },
 
-    classes(){
-      const classes = [themeType(this.themeType,'bookmark-bg',this.isLight),themeType(this.themeType,'',this.isLight)]
+    classes () {
+      const classes = [themeType(this.themeType, 'bookmark-bg', this.isLight), themeType(this.themeType, '', this.isLight)]
       return classes
     },
-    classesInner(){
-      let classes = [themeType('white','bookmark-bg')]
-      if(this.model===this.label){
-        classes = [themeType(this.themeType,'bookmark-bg',this.isLight),themeType('white')]
+
+    classesInner () {
+      let classes = [themeType('white', 'bookmark-bg')]
+      if (this.model === this.label) {
+        classes = [themeType(this.themeType, 'bookmark-bg', this.isLight), themeType('white')]
       }
       return [...classes]
     },
+
     style () {
       const style = {}
       if (this.width !== 0) {
@@ -102,7 +106,7 @@ export default {
         style.height = this.heightC
       }
       return style
-    },
+    }
   },
 
   watch: {
@@ -119,22 +123,22 @@ export default {
 
   methods: {
     clickHandler (e) {
-      e.stopPropagation();
+      e.stopPropagation()
       this.model = this.label
       this.go()
-      this.$emit('click-handle',this.label)
-      this.XlBookmarkGroup?.value?.clickHandle?.(this.label)
+      this.$emit('click-handle', this.label)
+      this.XlBookmarkGroup.clickHandle(this.label)
     },
 
     go () {
-      //设置路由跳转
-      if(this.to&&this.$router){
+      // 设置路由跳转
+      if (this.to && this.$router) {
         if (typeof this.to === 'string') {
           if (this.to?.slice(1) !== '/') {
             this.$router.push({ name: this.to })
-          }else{
+          } else {
             this.$router.push({ path: this.to })
-          } 
+          }
         } else {
           this.$router.push(this.to)
         }

@@ -44,7 +44,6 @@ const colors = {
 export default {
   name: 'XlPopup',
 
-  nameSpace: 'XlPopup',
   components: {
     Scroll,
     Button
@@ -99,7 +98,7 @@ export default {
     popStyle: {
       type: Object,
       default: () => {
-        return {}
+        return null
       }
     },
 
@@ -219,7 +218,7 @@ export default {
         if (this.lockScreen) {
           if (document.body.scrollHeight > window.innerHeight) {
             document.body.style.left = '0'
-            document.body.style.right = window.innerWidth - document.body.clientWidth + 'px'
+            document.body.style.right = `${window.innerWidth - document.body.clientWidth}px`
             // document.getElementById('app').style.paddingRight = '100px'
           }
           document.body.style.overflow = 'hidden'
@@ -369,8 +368,8 @@ export default {
 .tst-popup-scale-center-enter-active,
 .tst-popup-scale-center-leave-active {
   opacity: 1;
-  // -webkit-transform: translate(-50%,-50%) scale(1,1) !important;
-  // transform: translate(-50%,-50%) scale(1,1) !important;
+  -webkit-transform: translate(-50%,-50%) scale(1,1) !important;
+  transform: translate(-50%,-50%) scale(1,1) !important;
   -webkit-transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
   transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
   transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);

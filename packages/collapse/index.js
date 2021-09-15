@@ -4,5 +4,4 @@ Collapse.install = (App) => {
   App.component(Collapse.name, Collapse)
 }
 
-
 export default Collapse

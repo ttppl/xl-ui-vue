@@ -4,5 +4,4 @@ ToolTip.install = (App) => {
   App.component(ToolTip.name, ToolTip)
 }
 
-
 export default ToolTip

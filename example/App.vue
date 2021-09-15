@@ -1,185 +1,186 @@
 <template>
   <div>
     <div class="main">
-      <div class="none"></div>
-        <button @click="popleft=true">left</button>
-        <XlPopup v-model="popleft" direction="left" :mask="false" :width="50" :height="50" >
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-        </XlPopup>
-        <button @click="poptop=true">top</button>
-        <XlPopup v-model="poptop" direction="top" :mask="false" :width="50" :height="50" >
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-        </XlPopup>
-        <button @click="popright=true">right</button>
-        <XlPopup v-model="popright" direction="right" :mask="false" :width="50" :height="50" >
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-        </XlPopup>
-        <button @click="popbottom=true">111</button>
-        <XlPopup v-model="popbottom" direction="bottom" :mask="false" :width="50" :height="50" >
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-          <XlInput pop-class="warn" :width="1" :height="50"></XlInput>
-        </XlPopup>
-        <button  @click="popcenter=true">center</button>
-        <XlPopup type="dialog" v-model="popcenter"   :mask="false" title="111" :width="80" :height="20" >
-          11111111111111111111111111111111111111111111111111111111111111111111111111111
-        </XlPopup>     
-      </div>
-      
-      <div>
-        {{choose}} 
-        <XlChooseGroup class="text-left" icon-style-type='warn' light-style v-model="chooseradio" icon-type="radio" type="checkbox">
-            <XlChoose value="111">111</XlChoose>
-            <XlChoose value="222">222</XlChoose>
-        </XlChooseGroup>
-        <XlChooseGroup class="text-left" icon-style-type='warn' v-model="choose" icon-type="checkbox" type="radio">
-            <XlChoose value="111">111</XlChoose>
-            <XlChoose value="222">222</XlChoose>
-        </XlChooseGroup>
-      </div>
-      <div>
-        <XlInput light-Style type="warn" :height="50" placeholder="1111"></XlInput>
-      </div>
-      <div style="margin-top:20px">
-        <XlSelect light-Style size="small" type="primary" multi-select placeholder="jjj" v-model="select">
-          <XlSelectOption type="warn" value="111" label="111"></XlSelectOption>
-          <XlSelectOption value="222" label="222"></XlSelectOption>
-          <XlSelectOption value="333" label="333"></XlSelectOption>
-        </XlSelect>
-      </div>
+      <div class="none" />
+      <button @click="popleft=true">left</button>
+      <XlPopup v-model="popleft" direction="left" :mask="false" :width="50" :height="50">
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+      </XlPopup>
+      <button @click="poptop=true">top</button>
+      <XlPopup v-model="poptop" direction="top" :mask="false" :width="50" :height="50">
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+      </XlPopup>
+      <button @click="popright=true">right</button>
+      <XlPopup v-model="popright" direction="right" :mask="false" :width="50" :height="50">
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+      </XlPopup>
+      <button @click="popbottom=true">111</button>
+      <XlPopup v-model="popbottom" direction="bottom" :mask="false" :width="50" :height="50">
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+        <XlInput pop-class="warn" :width="1" :height="50" />
+      </XlPopup>
+      <button @click="popcenter=true">center</button>
+      <XlPopup v-model="popcenter" type="dialog" :mask="false" title="111" :width="80" :height="20">
+        11111111111111111111111111111111111111111111111111111111111111111111111111111
+      </XlPopup>
+    </div>
 
-      <div style="margin-top:20px">
-        <button @click="collapse=!collapse">collapse</button>
-        <XlCollapse>
-          <div v-show="collapse">
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-          </div>
-        </XlCollapse>
-      </div>
+    <div>
+      {{ choose }}
+      <XlChooseGroup v-model="chooseradio" class="text-left" icon-style-type="warn" light-style icon-type="radio" type="checkbox">
+        <XlChoose value="111">111</XlChoose>
+        <XlChoose value="222">222</XlChoose>
+      </XlChooseGroup>
+      <XlChooseGroup v-model="choose" class="text-left" icon-style-type="warn" icon-type="checkbox" type="radio">
+        <XlChoose value="111">111</XlChoose>
+        <XlChoose value="222">222</XlChoose>
+      </XlChooseGroup>
+    </div>
+    <div>
+      <XlInput light-style type="warn" :height="50" placeholder="1111" />
+    </div>
+    <div style="margin-top:20px">
+      <XlSelect v-model="select" size="small" type="primary" multi-select placeholder="jjj">
+        <XlSelectOption type="warn" value="111" label="111" />
+        <XlSelectOption value="222" label="222" />
+        <XlSelectOption value="333" label="333" />
+      </XlSelect>
+    </div>
 
-      <div style="margin-top:20px">
-        <XlPopover position="bottom" height="400" width="200" v-model="popover" offset-parent="100" offset="-200"
-          always-in-view  :show-arrow="false" inline>
-          <template #reference>
-            <button @click="popover=!popover">collapse</button>
-          </template>
-          <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <!-- <div>11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</div> -->
-        </XlPopover>
-      </div>
-      <div style="margin-top:20px">
-        <XlPopover position="top" offset="1000" :show-arrow='true' v-model="popoverTop" inline>
-          <template #reference>
-            <button @click="popoverTop=!popoverTop">collapse-top</button>
-          </template>
-          <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <!-- <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div> -->
-        </XlPopover>
-      </div>
-      <div style="margin-top:20px">
-        <XlPopover position="left" v-model="popoverleft" inline>
-          <template #reference>
-            <button @click="popoverleft=!popoverleft">collapse-left</button>
-          </template>
-          <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-            <div>111111111</div>
-        </XlPopover>
-      </div>
-      <div style="margin-top:20px">
-        <XlPopover position="right" offset="200"  trigger="click" width="200" v-model="popoverright" inline>
-          <template #reference>
-            <button @click="popoverright=!popoverright">collapse-right</button>
-          </template>
+    <div style="margin-top:20px">
+      <button @click="collapse=!collapse">collapse</button>
+      <XlCollapse>
+        <div v-show="collapse">
           <div>111111111</div>
           <div>111111111</div>
           <div>111111111</div>
           <div>111111111</div>
-          <div>1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111112</div>
-        </XlPopover>
-      </div>
-      <div>
-        <XlBookmarkGroup light @click-handle='click' v-model="bookmark" type="notice">
-          <XlBookmark label="111"></XlBookmark>
-          <XlBookmark label="222"></XlBookmark>
-          <XlBookmark label="333"></XlBookmark>
-        </XlBookmarkGroup>
-      </div>
-      <XlCard light>111</XlCard>
-      <div>
-        <div>code:{{code}}</div>
-        <XlIdentify v-model="code"></XlIdentify>
-      </div>
-      <div>
-        <XlButton type="primary" plain >button</XlButton>
-        <XlButton type="primary" plain light-style>button</XlButton>
-        <XlButton type="primary" light-style >button</XlButton>
-        <XlButton type="primary"  >button</XlButton>
-      </div>
-      <div>
-        <XlTooltip width="50">2111111111111111111111111111111111111111111111111</XlTooltip>
-      </div>
-      <div class="gap">
-        <XlTable type="notice" :data-list="dataList" show-arrow column-height='70'>
-          <XlTableColumn column-name = 'a' width="100"></XlTableColumn>
-          <XlTableColumn column-name = 'b'></XlTableColumn>
-          <XlTableColumn column-name = 'c'></XlTableColumn>
-          <XlTableColumn column-name = 'd'></XlTableColumn>
-          <template #expand="row">
-            <div>{{row.$index}}</div>
-            <div>{{row.a}}</div>
-            <div>{{row.b}}</div>
+          <div>111111111</div>
+        </div>
+      </XlCollapse>
+    </div>
 
-          </template>
-        </XlTable>
-      </div>
-      <div class="none"></div>
+    <div style="margin-top:20px">
+      <XlPopover v-model="popover" position="bottom" height="400" width="200" offset-parent="100" offset="-200"
+                 always-in-view :show-arrow="false" inline>
+        <template #reference>
+          <button @click="popover=!popover">collapse</button>
+        </template>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <!-- <div>11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</div> -->
+      </XlPopover>
+    </div>
+    <div style="margin-top:20px">
+      <XlPopover v-model="popoverTop" position="top" offset="1000" :show-arrow="true" inline>
+        <template #reference>
+          <button @click="popoverTop=!popoverTop">collapse-top</button>
+        </template>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <!--
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+          <div>111111111</div>
+        -->
+      </XlPopover>
+    </div>
+    <div style="margin-top:20px">
+      <XlPopover v-model="popoverleft" position="left" inline>
+        <template #reference>
+          <button @click="popoverleft=!popoverleft">collapse-left</button>
+        </template>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+      </XlPopover>
+    </div>
+    <div style="margin-top:20px">
+      <XlPopover v-model="popoverright" position="right" offset="200" trigger="click" width="200" inline>
+        <template #reference>
+          <button @click="popoverright=!popoverright">collapse-right</button>
+        </template>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>111111111</div>
+        <div>1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111112</div>
+      </XlPopover>
+    </div>
+    <div>
+      <XlBookmarkGroup v-model="bookmark" light type="notice" @click-handle="click">
+        <XlBookmark label="111" />
+        <XlBookmark label="222" />
+        <XlBookmark label="333" />
+      </XlBookmarkGroup>
+    </div>
+    <XlCard light>111</XlCard>
+    <div>
+      <div>code:{{ code }}</div>
+      <XlIdentify v-model="code" />
+    </div>
+    <div>
+      <XlButton type="primary" plain>button</XlButton>
+      <XlButton type="primary" plain light-style>button</XlButton>
+      <XlButton type="primary" light-style>button</XlButton>
+      <XlButton type="primary">button</XlButton>
+    </div>
+    <div>
+      <XlTooltip width="50">2111111111111111111111111111111111111111111111111</XlTooltip>
+    </div>
+    <div class="gap">
+      <XlTable v-model:currPage="currPage" type="primary" :data-list="dataList" show-arrow column-height="70" total="500">
+        <XlTableColumn column-name="a" width="100" />
+        <XlTableColumn column-name="b" />
+        <XlTableColumn column-name="c" />
+        <XlTableColumn column-name="d" />
+        <template #expand="row">
+          <div>{{ row.$index }}</div>
+          <div>{{ row.a }}</div>
+          <div>{{ row.b }}</div>
+        </template>
+      </XlTable>
+    </div>
+    <div class="none" />
   </div>
 </template>
 
@@ -188,52 +189,56 @@ export default {
   name: 'App',
   components: {
   },
-  data:()=>{
+
+  data: () => {
     return {
-      popleft:false,
-      popright:false,
-      poptop:false,
-      popbottom:false,
-      popcenter:false,
-      choose:'111',
-      chooseradio:[''],
-      select:'',
-      collapse:false,
-      popoverleft:false,
-      popover:false,
-      popoverright:false,
-      popoverTop:false,
-      popoverbottom:false,
+      popleft: false,
+      popright: false,
+      poptop: false,
+      popbottom: false,
+      popcenter: false,
+      choose: '111',
+      chooseradio: [''],
+      select: '',
+      collapse: false,
+      popoverleft: false,
+      popover: false,
+      popoverright: false,
+      popoverTop: false,
+      popoverbottom: false,
       // popover:false,
-      bookmark:"111",
-      code:'',
-      dataList:[{
-        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
-        b:'bbb',
-        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
-        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+      bookmark: '111',
+      code: '',
+      dataList: [{
+        a: 'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b: 'bbb',
+        c: 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d: 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
       },
       {
-        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
-        b:'bbb',
-        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
-        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-      },{
-        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
-        b:'bbb',
-        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
-        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-      },{
-        a:'aaaaaaaaaaaaaaaaaaaaaaaaa',
-        b:'bbb',
-        c:'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
-        d:'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-      }]
+        a: 'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b: 'bbb',
+        c: 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d: 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+      }, {
+        a: 'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b: 'bbb',
+        c: 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d: 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+      }, {
+        a: 'aaaaaaaaaaaaaaaaaaaaaaaaa',
+        b: 'bbb',
+        c: 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        d: 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+      }],
+
+      currPage: 2
     }
   },
-  methods:{
-    click(e){
-      console.log(e);
+
+  methods: {
+    click (e) {
+      console.log(e)
     }
   }
 }

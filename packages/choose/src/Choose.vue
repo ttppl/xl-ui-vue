@@ -5,17 +5,17 @@
       <div class="label-left pointer">
         <slot>{{ label||value }}</slot>
       </div>
-      <div :class="iconClass" class="pointer check-icon"><div class="icon-inner" :class="iconInnerClass" /></div>
+      <div :class="iconClass" class="check-icon pointer"><div class="icon-inner" :class="iconInnerClass" /></div>
     </label>
     <label v-if="labelPosition=='right'" :for="serialID" @click="labelClicked">
-      <div :class="iconClass" class="pointer check-icon"><div class="icon-inner" :class="iconInnerClass" /></div>
+      <div :class="iconClass" class="check-icon pointer"><div class="icon-inner" :class="iconInnerClass" /></div>
       <div class="label-right pointer"><slot>{{ label||value }}</slot></div>
     </label>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {themeType} from '../../types'
+import { themeType } from '../../types'
 export default {
   name: 'XlChoose',
 
@@ -37,12 +37,12 @@ export default {
       default: 'checkbox'
     },
 
-    iconStyleType:{
+    iconStyleType: {
       type: String,
       default: 'primary'
     },
 
-    lightStyle:Boolean,
+    lightStyle: Boolean,
 
     name: {
       type: String,
@@ -103,35 +103,39 @@ export default {
     checkIcon () {
       return this.isGroup ? this.chooseGroup.iconType : this.iconType
     },
-    iconStyle(){
-      return this.chooseGroup.iconStyleType||this.iconStyleType
+
+    iconStyle () {
+      return this.chooseGroup.iconStyleType || this.iconStyleType
     },
-    light(){
-      return this.chooseGroup.lightStyle||this.lightStyle
+
+    light () {
+      return this.chooseGroup.lightStyle || this.lightStyle
     },
+
     iconClass () {
       const checkbox = []
-      if(this.checkIcon === 'checkbox'){
+      if (this.checkIcon === 'checkbox') {
         checkbox.push('checkbox-icon')
-        checkbox.push(this.isCheck?themeType(this.iconStyle,'bd'):themeType('notice','bd'))
-        checkbox.push(themeType(this.iconStyle,'bd-hover'))
+        checkbox.push(this.isCheck ? themeType(this.iconStyle, 'bd') : themeType('notice', 'bd'))
+        checkbox.push(themeType(this.iconStyle, 'bd-hover'))
       }
       const radio = []
-      if(this.checkIcon === 'radio'){
+      if (this.checkIcon === 'radio') {
         radio.push('radio-icon')
-        radio.push(this.isCheck?themeType(this.iconStyle,'bd'):themeType('notice','bd'))
-        radio.push(themeType(this.iconStyle,'bd-hover'))
+        radio.push(this.isCheck ? themeType(this.iconStyle, 'bd') : themeType('notice', 'bd'))
+        radio.push(themeType(this.iconStyle, 'bd-hover'))
       }
       let theme = ''
-      if(this.isCheck){
-        if(this.checkIcon === 'checkbox'){theme = themeType(this.iconStyle,'bg',this.light)}
-        if(this.checkIcon === 'radio'){theme = themeType(this.iconStyle,'bg-bd',this.light)}
+      if (this.isCheck) {
+        if (this.checkIcon === 'checkbox') { theme = themeType(this.iconStyle, 'bg', this.light) }
+        if (this.checkIcon === 'radio') { theme = themeType(this.iconStyle, 'bg-bd', this.light) }
       }
-      return [...checkbox,...radio,theme]
+      return [...checkbox, ...radio, theme]
     },
-    iconInnerClass(){
+
+    iconInnerClass () {
       let theme = ''
-      if(this.checkIcon === 'radio'){theme = themeType(this.iconStyle,'bg',this.light)}
+      if (this.checkIcon === 'radio') { theme = themeType(this.iconStyle, 'bg', this.light) }
       return theme
     },
 
@@ -218,7 +222,7 @@ export default {
     border-width: 0.5px;
     border-style: solid;
     position: relative;
-    
+
   }
   input:checked+label>.radio-icon>.icon-inner {
     position: absolute;

@@ -9,7 +9,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {TYPES,themeType} from '../../types'
+import { TYPES, themeType } from '../../types'
 export default {
   name: 'XlSelectOption',
 
@@ -45,24 +45,24 @@ export default {
       return this.xlSelect.multiSelect
     },
 
-    model(){
+    model () {
       return this.xlSelect.model
     },
 
     checked () {
       const selected = this.model || []
-      return selected.indexOf(this.value) > -1
+      return Array.isArray(selected) ? selected.indexOf(this.value) > -1 : selected === this.value
     },
 
     classes () {
-      const type = TYPES.includes(this.type)?this.type:TYPES[0]
-      const types = [themeType(type,'bg-hover',true),themeType('black'),this.checked ?themeType(type,'bg',true):themeType('white','bg')]
+      const type = TYPES.includes(this.type) ? this.type : TYPES[0]
+      const types = [themeType(type, 'bg-hover', true), themeType('black'), this.checked ? themeType(type, 'bg', true) : themeType('white', 'bg')]
       return [...types]
       // return [types[this.type], types[this.type + (this.checked ? 'Checked' : '')]]
     },
 
-    xlSelect(){
-      return this.XlSelect.value||this.XlSelect
+    xlSelect () {
+      return this.XlSelect.value || this.XlSelect
     }
   },
 
@@ -76,7 +76,7 @@ export default {
     select (e) {
       if (this.xlSelect.multiSelect) {
         e.stopPropagation()
-        const selected = this.model || []
+        const selected = Array.isArray(this.model) ? this.model : this.model ? [this.model] : []
         if (selected.includes(this.value)) {
           selected.splice(selected.indexOf(this.value), 1)
         } else {

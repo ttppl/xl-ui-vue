@@ -4,5 +4,4 @@ Table.install = (App) => {
   App.component(Table.name, Table)
 }
 
-
 export default Table

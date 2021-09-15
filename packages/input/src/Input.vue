@@ -13,8 +13,6 @@ import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlInput',
 
-  nameSpace: 'XlInput',
-
   components: {
   },
   mixins:[whCompute],
@@ -59,7 +57,7 @@ export default {
     popStyle: {
       type: Object,
       default: () => {
-        return {}
+        return null
       }
     },
 
@@ -107,7 +105,7 @@ export default {
       // 自定义style
       const style = this.popStyle || {}
       if (!style.height && this.height !== 0 && this.textType.toLowerCase() !== 'textarea') { style.height = this.heightC }
-      if (!style.fontSize && this.height > 1) { style.fontSize = this.height / 3 + 'px' }
+      if (!style.fontSize && this.height > 1) { style.fontSize = `${this.height / 3}px` }
       return style
     }
   },

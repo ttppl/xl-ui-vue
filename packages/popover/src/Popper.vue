@@ -1,7 +1,7 @@
 <script type="text/ecmascript-6">
 import { h, Teleport, Transition, vShow, withDirectives, withCtx } from 'vue'
 import zIndexManager from '../../utils/zIndexManager'
-import {getElementSize} from '../../utils/dom'
+// import {getElementSize} from '../../utils/dom'
 import Scroll from '../../scroll/src/Scroll'
 import whCompute from '../../mixins/whCompute'
 const GAP = 10
@@ -29,7 +29,6 @@ const TYPES={
 export default {
   name: 'XlPropper',
 
-  nameSpace: '',
   mixins:[whCompute],
   components: {
   },
@@ -258,14 +257,14 @@ export default {
         this.parentwidth = parentwidth
         const parentHeight = parent.getBoundingClientRect().height
 
-        // const ownWidthOrig = this.$refs.popper?.getBoundingClientRect().width||this.widthC.slice(0,-2)/1
-        const size = getElementSize(this.$refs.popperInner)
-        console.log('size',size);
-        const ownWidthOrig = size.width||this.widthC.slice(0,-2)/1
+        const ownWidthOrig = this.$refs.popper?.getBoundingClientRect().width||this.widthC.slice(0,-2)/1
+        // const size = getElementSize(this.$refs.popperInner)
+        // console.log('size',size);
+        // const ownWidthOrig = size.width||this.widthC.slice(0,-2)/1
         const ownWidth = this.minWidthFollowParent ? Math.max(ownWidthOrig, parentwidth) : ownWidthOrig
 
-        // const ownHeight = this.$refs.popper?.getBoundingClientRect().height||this.heightC.slice(0,-2)/1
-        const ownHeight = size.height||this.heightC.slice(0,-2)/1
+        const ownHeight = this.$refs.popper?.getBoundingClientRect().height||this.heightC.slice(0,-2)/1
+        // const ownHeight = size.height||this.heightC.slice(0,-2)/1
         const windowHeight = window.innerHeight - this.scrollWidth
         const windowWidth = window.innerWidth - this.scrollWidth
 
@@ -503,11 +502,11 @@ export default {
         )])
       }
     )
-    // , isNaN(this.width)||this.width === 0 || isNaN(this.height)||this.height === 0 ? h(
-    //   'div',
-    //   { class: [TYPES[this.type] , 'xl-hidden-popper'], ref: 'popper', style: this.contentStyle },
-    //   h(Scroll, null, this.$slots.default())
-    // ) : null
+    , isNaN(this.width)||this.width === 0 || isNaN(this.height)||this.height === 0 ? h(
+      'div',
+      { class: [TYPES[this.type] , 'xl-hidden-popper'], ref: 'popper', style: this.contentStyle },
+      h(Scroll, null, this.$slots.default())
+    ) : null
     ])
   }
 }

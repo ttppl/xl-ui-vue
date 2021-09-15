@@ -18,7 +18,6 @@ import {computed} from 'vue'
 export default {
   name: 'XlPopover',
 
-  nameSpace: 'XlPopover',
   directives: { clickoutside },
   provide () {
     return {

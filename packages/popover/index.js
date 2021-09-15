@@ -4,5 +4,4 @@ Popover.install = (App) => {
   App.component(Popover.name, Popover)
 }
 
-
 export default Popover

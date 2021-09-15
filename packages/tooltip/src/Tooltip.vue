@@ -14,8 +14,6 @@ import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlTooltip',
 
-  nameSpace: 'XlTooltip',
-
   components: {
     Popper
   },

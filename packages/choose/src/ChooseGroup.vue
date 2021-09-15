@@ -15,7 +15,7 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: [String,Array],
+      type: [String, Array],
       default: ''
     },
 
@@ -24,11 +24,12 @@ export default defineComponent({
       default: 'checkbox'
     },
 
-    iconStyleType:{
+    iconStyleType: {
       type: String,
       default: 'primary'
     },
-    lightStyle:Boolean,
+
+    lightStyle: Boolean,
 
     type: {
       type: String,
@@ -60,8 +61,8 @@ export default defineComponent({
       name: 'chooseGroup',
       modelValue,
       iconType: props.iconType,
-      iconStyleType:props.iconStyleType,
-      lightStyle:props.lightStyle,
+      iconStyleType: props.iconStyleType,
+      lightStyle: props.lightStyle,
       type: props.type,
       serialID: genID()
     })

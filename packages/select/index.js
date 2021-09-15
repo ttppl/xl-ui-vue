@@ -4,5 +4,4 @@ Select.install = (App) => {
   App.component(Select.name, Select)
 }
 
-
 export default Select

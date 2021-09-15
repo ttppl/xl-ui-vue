@@ -3,7 +3,7 @@
     <div ref="view" class="xl-scroll-content" :style="style" @scroll="handleScroll">
       <slot />
     </div>
-    <div v-show="scroll&&showScroll" class="xl-pointer xl-scroll-bar" @mousedown="clickTrackHandler">
+    <div v-show="scroll&&showScroll" class="xl-pointer xl-scroll-bar" @mousedown="clickTrackHandler" @click.stop>
       <div ref="bar" class="xl-bar xl-pointer" :class="barClass" :style="barStyle" />
     </div>
   </div>
@@ -11,7 +11,7 @@
 
 <script type="text/ecmascript-6">
 import whCompute from '../../mixins/whCompute'
-import {themeType} from '../../types'
+import { themeType } from '../../types'
 const on = function (element, event, handler, useCapture = false) {
   if (element && event && handler) {
     element.addEventListener(event, handler, useCapture)
@@ -24,11 +24,11 @@ const off = function (element, event, handler, useCapture = false) {
 }
 export default {
   name: 'XlScroll',
-  
-  mixins:[whCompute],
-  
+
   components: {
   },
+
+  mixins: [whCompute],
 
   props: {
 
@@ -41,46 +41,55 @@ export default {
       type: Number,
       default: 5
     },
-    type:{
-      type:String,
-      default:'notice'
+
+    type: {
+      type: String,
+      default: 'notice'
     },
-    lightStyle:Boolean
+
+    lightStyle: Boolean,
+    popStyle: {
+      type: Object,
+      default: () => {
+        return null
+      }
+    }
   },
 
   data () {
     return {
-      scroll: false,//是否需要滚动
-      scrollHeight: 0,//内容高度
-      viewHeight: 0,//可见高度
-      barTranslateY: 0,//滚动条位置
-      barChecked: false//滚动条是否被选中
+      scroll: false, // 是否需要滚动
+      scrollHeight: 0, // 内容高度
+      viewHeight: 0, // 可见高度
+      barTranslateY: 0, // 滚动条位置
+      barChecked: false// 滚动条是否被选中
     }
   },
 
   computed: {
 
     style () {
-      let tmp = ''
+      const style = this.popStyle || {}
       if (this.width !== 0) {
-        tmp += 'width:' + this.widthC + ';'
+        style.width = this.widthC
       }
       if (this.height !== 0) {
-        tmp += 'height:' + this.heightC + ';'
+        style.height = this.heightC
       }
-      return tmp
+      return style
     },
-    barClass(){
-      const type = themeType(this.type,'bg',this.lightStyle)
-      const checked = {'xl-bar-checked':this.barChecked}
-      return [type,checked]
+
+    barClass () {
+      const type = themeType(this.type, 'bg', this.lightStyle)
+      const checked = { 'xl-bar-checked': this.barChecked }
+      return [type, checked]
     },
 
     barStyle () {
       const style = {}
-      style.width = this.barWidth + 'px'
-      style.transform = 'translateY(' + this.barTranslateY + '%)'
-      style.height = this.scrollHeight / this.viewHeight * this.scrollHeight + 'px'
+      style.width = `${this.barWidth}px`
+      style.transform = `translateY(${this.barTranslateY}%)`
+      style.height = `${this.scrollHeight / this.viewHeight * this.scrollHeight}px`
       return style
     }
   },
@@ -118,7 +127,7 @@ export default {
     clickTrackHandler (e) {
       if (this.scroll && this.showScroll) {
         e.stopPropagation()
-        this.caculatePosition(e)
+        // this.caculatePosition(e)
         on(document, 'mousemove', this.moseMove)
         on(document, 'mouseup', this.mouseUp)
       }
@@ -130,8 +139,10 @@ export default {
       this.caculatePosition(e)
     },
 
-    mouseUp () {
+    mouseUp (e) {
       this.barChecked = false
+      e.stopPropagation()
+      this.caculatePosition(e)
       off(document, 'mousemove', this.moseMove)
     },
 
@@ -191,6 +202,4 @@ export default {
     cursor: pointer;
   }
 }
-
-
 </style>

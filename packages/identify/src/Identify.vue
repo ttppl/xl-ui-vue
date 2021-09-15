@@ -7,7 +7,6 @@
 <script type="text/ecmascript-6">
 export default {
   name: 'XlIdentify',
-  emits:['update:identifyCode'],
   props: {
     modelValue: { // 验证码
       type: String,
@@ -74,13 +73,16 @@ export default {
       default: 38
     }
   },
-  computed:{
-    identifyCode:{
-      get(){
+
+  emits: ['update:identifyCode'],
+  computed: {
+    identifyCode: {
+      get () {
         return this.modelValue
       },
-      set(nv){
-        this.$emit('update:modelValue',nv)
+
+      set (nv) {
+        this.$emit('update:modelValue', nv)
       }
     }
   },
@@ -96,10 +98,11 @@ export default {
   },
 
   methods: {
-    reset(){
-      this.identifyCode = this.randomNum(1000, 9999).toString();
-      this.drawPic();
+    reset () {
+      this.identifyCode = this.randomNum(1000, 9999).toString()
+      this.drawPic()
     },
+
     // 生成一个随机数
     randomNum (min, max) {
       return Math.floor(Math.random() * (max - min) + min)
@@ -125,7 +128,7 @@ export default {
         // this.identifyCode = this.randomNum(1000, 9999)
         const tmp = this.randomNum(1000, 9999).toString()
         // Bus.$emit('identify-code', tmp)
-        this.identifyCode=tmp
+        this.identifyCode = tmp
         for (let i = 0; i < tmp.length; i++) {
           this.drawText(ctx, tmp, tmp[i], i)
         }
@@ -176,6 +179,7 @@ export default {
   }
 }
 </script>
+
 <style lang="less">
 .XlIdentify{
   cursor: pointer;

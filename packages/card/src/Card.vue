@@ -12,14 +12,14 @@
 
 <script type="text/ecmascript-6">
 import whCompute from '../../mixins/whCompute'
-import {themeType} from '../../types'
+import { themeType } from '../../types'
 export default {
   name: 'XlCard',
-  
-  mixins:[whCompute],
-  
+
   components: {
   },
+
+  mixins: [whCompute],
 
   props: {
     type: {
@@ -31,7 +31,8 @@ export default {
       type: String,
       default: ''
     },
-    lightStyle:Boolean
+
+    lightStyle: Boolean
   },
 
   data () {
@@ -40,22 +41,25 @@ export default {
   },
 
   computed: {
-    headerClass(){
-      return themeType(this.type||'notice','card-header',this.lightStyle)
+    headerClass () {
+      return themeType(this.type || 'notice', 'card-header', this.lightStyle)
     },
-    footerClass(){
-      return themeType(this.type||'notice','bg',this.lightStyle)
+
+    footerClass () {
+      return themeType(this.type || 'notice', 'bg', this.lightStyle)
     },
-    contentClass(){
-      let classes = this.customClass||[]
+
+    contentClass () {
+      let classes = this.customClass || []
       if (typeof classes === 'string') {
         classes = [classes]
       }
-      const type = themeType(this.type||'notice','bd',this.lightStyle)
-      return [...classes,type]
+      const type = themeType(this.type || 'notice', 'bd', this.lightStyle)
+      return [...classes, type]
     },
+
     style () {
-      const style =  {}
+      const style = {}
       if (!style.width && this.width !== 0) {
         style.width = this.widthC
       }
@@ -63,7 +67,7 @@ export default {
         style.height = this.heightC
       }
       return style
-    },
+    }
   }
 }
 </script>

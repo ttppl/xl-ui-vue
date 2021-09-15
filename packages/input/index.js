@@ -4,5 +4,4 @@ Input.install = (App) => {
   App.component(Input.name, Input)
 }
 
-
 export default Input

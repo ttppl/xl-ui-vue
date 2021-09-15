@@ -1,14 +1,16 @@
 <script type="text/ecmascript-6">
 import { h, defineComponent, vShow, withDirectives, computed } from 'vue'
 import Tooltip from '../../tooltip/src/Tooltip'
-import {themeType} from '../../types'
+import Pagenation from '../../pagenation/src/Pagenation'
+import { themeType } from '../../types'
 export default defineComponent({
   name: 'XlTable',
 
   nameSpace: 'XlTable',
 
   components: {
-    Tooltip
+    Tooltip,
+    Pagenation
   },
 
   provide () {
@@ -27,6 +29,21 @@ export default defineComponent({
       default: () => {
         return []
       }
+    },
+
+    currPage: {
+      type: Number,
+      default: 1
+    },
+
+    total: {
+      type: Number,
+      default: 0
+    },
+
+    pageSize: {
+      type: Number,
+      default: 10
     },
 
     type: {
@@ -72,6 +89,8 @@ export default defineComponent({
 
   },
 
+  emits: ['update:currPage', 'change-page'],
+
   data () {
     return {
       columns: [],
@@ -83,7 +102,7 @@ export default defineComponent({
 
     headerClass () {
       const classes = []
-      classes.push(themeType(this.type,'bg',true))
+      classes.push(themeType(this.type, 'bg', true))
       if (this.border) {
         classes.push('xl-table-border')
       }
@@ -104,7 +123,7 @@ export default defineComponent({
       if (Array.isArray(width)) {
         return width.reduce((pre, cur) => pre + cur)
       }
-      return { width: width !== 0 ? width + 'px' : 'auto', height: `${this.columnHeight}px` }
+      return { width: width !== 0 ? `${width}px` : 'auto', height: `${this.columnHeight}px` }
     },
 
     getHeader () {
@@ -121,7 +140,7 @@ export default defineComponent({
         }
       })
       if (this.$slots.expand && this.showArrow) {
-          headChildren.push(h('td', { width: '30px',class:['xl-table-arrow','xl-color-bg-white'] }))
+        headChildren.push(h('td', { width: '30px', class: ['xl-table-arrow', 'xl-color-bg-white'] }))
       }
       return h('thead', { class: 'table-head' }, h('tr', null, headChildren))
     },
@@ -146,7 +165,7 @@ export default defineComponent({
         })
         if (this.$slots.expand && this.showArrow) {
           trChildren.push(h('td', { class: ['xl-table-arrow'], width: '30px', onClick: () => { this.expand(d) } },
-            h('img', { class: ['xl-table-arrow-init', { 'xl-table-arrow-down': d.expand }], src: this.arrowDown,width:20,height:20 })))
+            h('img', { class: ['xl-table-arrow-init', { 'xl-table-arrow-down': d.expand }], src: this.arrowDown, width: 20, height: 20 })))
         }
         children.push(h('tr', {}, trChildren))
         if (this.$slots.expand) {
@@ -179,20 +198,35 @@ export default defineComponent({
       if (!this.showArrow) {
         d.expand = !d.expand
       }
+    },
+
+    changeCurrPage (page) {
+      this.$emit('update:currPage', page)
+      this.$emit('change-page', page)
     }
   },
 
   render () {
-    return h('div', { ref: 'table', class: ['XlTable'], style: { width: typeof this.width === 'number' ? `${this.width + 20}px` : this.width, height: this.height } },
+    return [h('div', { ref: 'table', class: ['XlTable'], style: { width: typeof this.width === 'number' ? `${this.width + 20}px` : this.width, height: this.height } },
       [h('div', { class: 'xl-table-hiddenc-column' }, this.$slots.default()),
         h('table', { class: 'xl-table', border: 0, cellspacing: 0, cellpadding: 0, style: { width: '100%' } },
-          [this.getHeader(), this.getColumnsrender()])])
+          [this.getHeader(), this.getColumnsrender()])
+      ]), this.total > this.pageSize ? h(Pagenation,
+      {
+        total: this.total,
+        pageSize: this.pageSize,
+        currPage: this.currPage,
+        class: ['pagenation'],
+        type: this.type,
+        onChangeCurrpage: this.changeCurrPage
+      }) : null]
   }
 })
 </script>
 
 <style scoped lang="less">
 .XlTable{
+  position: relative;
   width:auto;
   overflow-x: auto;
   overflow-y: hidden;
@@ -245,6 +279,10 @@ export default defineComponent({
         transition-duration: .5s;
       }
     }
+  }
+  .pagenation{
+    margin-top: 10px;
+    // position: absolute;
   }
 }
 </style>

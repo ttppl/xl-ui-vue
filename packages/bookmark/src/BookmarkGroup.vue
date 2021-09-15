@@ -7,7 +7,7 @@
 
 <script type="text/ecmascript-6">
 import Bookmark from './Bookmark'
-import {computed} from 'vue'
+import { computed } from 'vue'
 
 export default {
   name: 'XlBookmarkGroup',
@@ -16,26 +16,25 @@ export default {
     Bookmark
   },
 
-  emits: ['update:modelValue','click-handle'],
-
   provide () {
     return {
       XlBookmarkGroup: computed(() => {
         return {
           name: 'XlBookmarkGroup',
-          modelValue:this.model,
-          type:this.type,
-          lightStyle:this.lightStyle,
-          update:(nv)=>{
+          modelValue: this.model,
+          type: this.type,
+          lightStyle: this.lightStyle,
+          update: (nv) => {
             this.$emit('update:modelValue', nv)
           },
-          clickHandle:(label)=>{
+          clickHandle: (label) => {
             this.$emit('click-handle', label)
           }
         }
       })
     }
   },
+
   props: {
     bookmarks: {
       type: Array,
@@ -48,12 +47,16 @@ export default {
       type: String,
       default: ''
     },
+
     type: {
       type: String,
       default: 'primary'
     },
-    lightStyle:Boolean,
+
+    lightStyle: Boolean
   },
+
+  emits: ['update:modelValue', 'click-handle'],
 
   computed: {
     model: {

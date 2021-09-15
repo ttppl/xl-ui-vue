@@ -64,8 +64,8 @@ export default {
         style.height=this.heightC
       }
       if (this.circle) {
-        style.width=this.maxSize+'px'
-        style.height=this.maxSize+'px'
+        style.width=`${this.maxSize}px`
+        style.height=`${this.maxSize}px`
         style.borderRadius =  '50%'
       }
       if(this.classC.join().includes('-bd-')){

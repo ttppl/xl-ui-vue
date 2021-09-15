@@ -4,5 +4,4 @@ Scroll.install = (App) => {
   App.component(Scroll.name, Scroll)
 }
 
-
 export default Scroll

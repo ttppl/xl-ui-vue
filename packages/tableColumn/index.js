@@ -4,5 +4,4 @@ TableColumn.install = (App) => {
   App.component(TableColumn.name, TableColumn)
 }
 
-
 export default TableColumn
