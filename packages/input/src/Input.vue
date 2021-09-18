@@ -1,21 +1,22 @@
 <template>
-  <div ref="input" v-if="textType=='text'" class="XlInput" :class="classes" :style="style">
+  <div v-if="textType=='text'" ref="input" class="XlInput" :class="classes" :style="style">
     <input v-model="model" :style="inputStyle" :class="inputClasses" type="text" :placeholder="placeholder" @change="input" @blur="blur">
   </div>
-  <div ref="input" v-else class="XlInput" :class="classes" :style="style">
+  <div v-else ref="input" class="XlInput" :class="classes" :style="style">
     <textarea v-model="model" :class="inputClasses" :style="inputStyle" :rows="row" :placeholder="placeholder" />
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {InputThemeType} from '../../types'
+import { InputThemeType } from '../../types'
 import whCompute from '../../mixins/whCompute'
 export default {
   name: 'XlInput',
 
   components: {
   },
-  mixins:[whCompute],
+
+  mixins: [whCompute],
   props: {
     type: {
       type: String,
@@ -61,7 +62,7 @@ export default {
       }
     },
 
-    lightStyle:Boolean
+    lightStyle: Boolean
   },
 
   emits: ['update:modelValue', 'input', 'change'],
@@ -82,17 +83,17 @@ export default {
     },
 
     classes () {
-      const type = InputThemeType(this.type,this.lightStyle)|| 'xl-none'
+      const type = InputThemeType(this.type, this.lightStyle) || 'xl-none'
       return type
     },
 
     inputClasses () {
-      let classes = this.popClass || []
+      const classes = this.popClass || []
       return classes
     },
 
     style () {
-      const style=this.$refs.input?.style||{}
+      const style = { ...this.$refs.input?.style }
       // 宽高
       if (!style.width && this.width !== 0) { style.width = this.widthC }
       if (!style.borderRadius) { style.borderRadius = '4px' }
@@ -101,9 +102,10 @@ export default {
       // if(this.lightStyle){style.opacity="0.5"}
       return style
     },
-    inputStyle() {
+
+    inputStyle () {
       // 自定义style
-      const style = this.popStyle || {}
+      const style = { ...this.popStyle }
       if (!style.height && this.height !== 0 && this.textType.toLowerCase() !== 'textarea') { style.height = this.heightC }
       if (!style.fontSize && this.height > 1) { style.fontSize = `${this.height / 3}px` }
       return style
@@ -122,7 +124,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .XlInput{
   display: inline-flex;
   align-items: center;

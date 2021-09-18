@@ -1,9 +1,9 @@
 <template>
-  <div ref="popover" @[popTrigger]="show" @mouseout="mouseout" v-clickoutside="closePopOutSide" class="XlPopover" :class="{'xl-inline-block':inline}">
-      <slot name="reference" />
+  <div ref="popover" v-clickoutside="closePopOutSide" class="XlPopover" :class="{'xl-inline-block':inline}" @[popTrigger]="show" @mouseout="mouseout">
+    <slot name="reference" />
     <popper ref="popper" v-model="model" :position="position" :show-arrow="showArrow" :offset="offset" :offset-parent="offsetParent"
-            :width="width" :height="height" :pop-style="popStyle" 
-            :always-Given-Position="alwaysGivenPosition" :always-In-View="alwaysInView"
+            :width="width" :height="height" :pop-style="popStyle"
+            :always-given-position="alwaysGivenPosition" :always-in-view="alwaysInView"
             @mouseover="mouseover" @mouseout="mouseout"
             @close="closePop">
       <slot />
@@ -14,47 +14,51 @@
 <script type="text/ecmascript-6">
 import clickoutside from '../../utils/clickouside'
 import popper from './Popper'
-import {computed} from 'vue'
+import { computed } from 'vue'
 export default {
   name: 'XlPopover',
 
   directives: { clickoutside },
+  components: {
+    popper
+  },
+
   provide () {
     return {
       XlPopperTrigger: computed(() => {
         return {
           name: 'XlPopover',
-          dom:()=>{
+          dom: () => {
             return this.$refs.popover
           }
         }
       })
     }
   },
-  components: {
-    popper
-  },
 
   props: {
     modelValue: Boolean,
     inline: Boolean,
     width: {
-      type: [Number,String],
+      type: [Number, String],
       default: 0
     },
 
     height: {
-      type: [Number,String],
+      type: [Number, String],
       default: 0
     },
-    offset:{
-      type:[Number,String],
-      default:0
+
+    offset: {
+      type: [Number, String],
+      default: 0
     },
-    offsetParent:{
-      type:[Number,String],
-      default:0
+
+    offsetParent: {
+      type: [Number, String],
+      default: 0
     },
+
     trigger: {
       type: String,
       default: 'click'
@@ -74,13 +78,15 @@ export default {
       type: Boolean,
       default: true
     },
-    position:{
-      type:String,
-      default:'bottom'
-    },
-    alwaysGivenPosition:Boolean,//强制位置显示
 
-    alwaysInView:Boolean,//总是在窗口内
+    position: {
+      type: String,
+      default: 'bottom'
+    },
+
+    alwaysGivenPosition: Boolean, // 强制位置显示
+
+    alwaysInView: Boolean// 总是在窗口内
   },
 
   emits: ['update:modelValue'],
@@ -141,6 +147,7 @@ export default {
     closePop () {
       this.model = false
     },
+
     mouseover () {
       if (this.trigger === 'hover') {
         if (this.timer) {
@@ -149,6 +156,7 @@ export default {
         this.model = true
       }
     },
+
     mouseout () {
       // if (this.trigger === 'hover') {
       //   let timeout = null

@@ -69,7 +69,7 @@ export default {
   computed: {
 
     style () {
-      const style = this.popStyle || {}
+      const style = { ...this.popStyle }
       if (this.width !== 0) {
         style.width = this.widthC
       }

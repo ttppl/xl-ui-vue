@@ -24,7 +24,7 @@ export default {
     return {
       XlPopperTrigger: computed(() => {
         return {
-          name:'ToolTip',
+          name: 'ToolTip',
           dom: () => {
             return this.$refs.tootip
           }
@@ -38,7 +38,12 @@ export default {
       type: String,
       default: 'bottom'
     },
-    inline:Boolean
+
+    inline: Boolean,
+    showDelay: {
+      type: Number,
+      default: 1000
+    }
   },
 
   emits: ['update:modelValue'],
@@ -65,7 +70,7 @@ export default {
 
     model: {
       get () {
-        return this.showPanel && (this.overFlow||!!this.$slots.tip)
+        return this.showPanel && (this.overFlow || !!this.$slots.tip)
       },
 
       set (nv) {
@@ -85,17 +90,34 @@ export default {
 
   methods: {
     show () {
+      if (this.$refs.tootip.scrollWidth > this.$refs.tootip.clientWidth) {
+        this.overFlow = true
+      } else if (this.$refs.tootip.children) {
+        this.$refs.tootip.children.forEach(c => {
+          if (c.scrollWidth > this.$refs.tootip.clientWidth) {
+            this.overFlow = true
+          }
+        })
+      }
       if (this.timer) {
         clearTimeout(this.timer)
       }
-      this.model = true
+      this.timer = setTimeout(() => {
+        this.model = true
+      }, this.showDelay)
     },
 
     closePop () {
       this.model = false
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
     },
 
     mouseout () {
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
       this.timer = setTimeout(() => {
         this.model = false
       }, 300)

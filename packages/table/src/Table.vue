@@ -2,6 +2,7 @@
 import { h, defineComponent, vShow, withDirectives, computed } from 'vue'
 import Tooltip from '../../tooltip/src/Tooltip'
 import Pagenation from '../../pagenation/src/Pagenation'
+import Icon from '../../icon/src/Icon'
 import { themeType } from '../../types'
 export default defineComponent({
   name: 'XlTable',
@@ -92,10 +93,7 @@ export default defineComponent({
   emits: ['update:currPage', 'change-page'],
 
   data () {
-    return {
-      columns: [],
-      arrowDown: require('./icons/expander-down.png')
-    }
+    return { columns: [] }
   },
 
   computed: {
@@ -165,7 +163,7 @@ export default defineComponent({
         })
         if (this.$slots.expand && this.showArrow) {
           trChildren.push(h('td', { class: ['xl-table-arrow'], width: '30px', onClick: () => { this.expand(d) } },
-            h('img', { class: ['xl-table-arrow-init', { 'xl-table-arrow-down': d.expand }], src: this.arrowDown, width: 20, height: 20 })))
+            h(Icon, { class: ['xl-table-arrow-init', { 'xl-table-arrow-down': d.expand }], icon: 'arrowDown', size: 20, type: 'notice' })))
         }
         children.push(h('tr', {}, trChildren))
         if (this.$slots.expand) {
@@ -271,6 +269,7 @@ export default defineComponent({
       cursor: pointer;
       // border: 1px solid white;
       .xl-table-arrow-init{
+        display: inline-block;
         vertical-align: middle;
         transition-duration: .5s;
       }

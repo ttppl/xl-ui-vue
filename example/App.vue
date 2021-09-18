@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div class="content">
     <div class="main">
+      <XlIcon />
+      <XlInput type="warn" />
       <div class="none" />
-      <button @click="popleft=true">left</button>
+      <button type="button" @click="popleft=true">left</button>
       <XlPopup v-model="popleft" direction="left" :mask="false" :width="50" :height="50">
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
@@ -10,7 +12,7 @@
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
       </XlPopup>
-      <button @click="poptop=true">top</button>
+      <button type="button" @click="poptop=true">top</button>
       <XlPopup v-model="poptop" direction="top" :mask="false" :width="50" :height="50">
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
@@ -18,7 +20,7 @@
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
       </XlPopup>
-      <button @click="popright=true">right</button>
+      <button type="button" @click="popright=true">right</button>
       <XlPopup v-model="popright" direction="right" :mask="false" :width="50" :height="50">
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
@@ -26,7 +28,7 @@
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
       </XlPopup>
-      <button @click="popbottom=true">111</button>
+      <button type="button" @click="popbottom=true">111</button>
       <XlPopup v-model="popbottom" direction="bottom" :mask="false" :width="50" :height="50">
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
@@ -34,7 +36,7 @@
         <XlInput pop-class="warn" :width="1" :height="50" />
         <XlInput pop-class="warn" :width="1" :height="50" />
       </XlPopup>
-      <button @click="popcenter=true">center</button>
+      <button type="button" @click="popcenter=true">center</button>
       <XlPopup v-model="popcenter" type="dialog" :mask="false" title="111" :width="80" :height="20">
         11111111111111111111111111111111111111111111111111111111111111111111111111111
       </XlPopup>
@@ -53,13 +55,6 @@
     </div>
     <div>
       <XlInput light-style type="warn" :height="50" placeholder="1111" />
-    </div>
-    <div style="margin-top:20px">
-      <XlSelect v-model="select" size="small" type="primary" multi-select placeholder="jjj">
-        <XlSelectOption type="warn" value="111" label="111" />
-        <XlSelectOption value="222" label="222" />
-        <XlSelectOption value="333" label="333" />
-      </XlSelect>
     </div>
 
     <div style="margin-top:20px">
@@ -85,7 +80,6 @@
         <div>111111111</div>
         <div>111111111</div>
         <div>111111111</div>
-        <!-- <div>11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</div> -->
       </XlPopover>
     </div>
     <div style="margin-top:20px">
@@ -101,25 +95,6 @@
         <div>111111111</div>
         <div>111111111</div>
         <div>111111111</div>
-        <!--
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-          <div>111111111</div>
-        -->
       </XlPopover>
     </div>
     <div style="margin-top:20px">
@@ -173,13 +148,30 @@
         <XlTableColumn column-name="b" />
         <XlTableColumn column-name="c" />
         <XlTableColumn column-name="d" />
+
         <template #expand="row">
           <div>{{ row.$index }}</div>
           <div>{{ row.a }}</div>
           <div>{{ row.b }}</div>
         </template>
       </XlTable>
+
+      <div />
     </div>
+    <XlSelect v-model="select" size="1" type="primary" multi-select placeholder="jjj">
+      <XlSelectOption type="warn" value="111" label="111" />
+      <XlSelectOption value="222" label="222" />
+      <XlSelectOption value="333" label="333" />
+      <XlSelectOption type="warn" value="111" label="111" />
+      <XlSelectOption value="222" label="222" />
+      <XlSelectOption value="333" label="333" />
+      <XlSelectOption type="warn" value="111" label="111" />
+      <XlSelectOption value="222" label="222" />
+      <XlSelectOption value="333" label="333" />
+      <XlSelectOption type="warn" value="111" label="111" />
+      <XlSelectOption value="222" label="222" />
+      <XlSelectOption value="333" label="333" />
+    </XlSelect>
     <div class="none" />
   </div>
 </template>
@@ -255,6 +247,9 @@ export default {
   height:100%;
   /* background-color: gray; */
   /* overflow: hidden; */
+}
+.content{
+  text-align: center;
 }
 .main{
   width: 100%;

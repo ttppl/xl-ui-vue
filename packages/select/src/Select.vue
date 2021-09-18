@@ -1,5 +1,5 @@
 <template>
-  <div class="XlSelect" :style="style">
+  <div class="XlSelect">
     <div ref="select" v-clickoutside="closeSelect" tabindex="0" :class="classes" class="xl-select-label" :style="styleInner" @click="showList">
       <span v-if="selected" :style="textStyle" class="selected">{{ selected }}</span>
       <span v-else class="placeholder">{{ placeholder }}</span>
@@ -18,7 +18,7 @@
       </div>
       </transition>
     -->
-    <Popper v-model="showSelectMenu" type="select" :height="panelHeight" :pop-style="{backgroundColor:'white'}" min-width-follow-parent>
+    <Popper v-model="showSelectMenu" type="select" :max-height="panelHeight" min-width-follow-parent>
       <div class="options">
         <slot><div class="no-data-tip">No data</div></slot>
       </div>
@@ -94,7 +94,7 @@ export default {
 
     width: {
       type: [Number, String],
-      default: 1
+      default: 240
     },
 
     height: {
@@ -114,12 +114,12 @@ export default {
       }
     },
 
-    outerStyle: {
-      type: Object,
-      default: () => {
-        return null
-      }
-    },
+    // outerStyle: {
+    //   type: Object,
+    //   default: () => {
+    //     return null
+    //   }
+    // },
 
     popStyle: {
       type: Object,
@@ -180,29 +180,33 @@ export default {
       }
     },
 
-    style () {
-      const style = this.outerStyle || {}
-      if (this.width !== 0) {
-        style.width = this.widthC
-      }
-      if (this.height !== 0) {
-        style.height = this.heightC
-      }
-      if (this.size === 'small') {
-        style.height = '30px'
-        style.width = '255px'
-      }
-      return style
-    },
+    // style () {
+    //   const style = this.outerStyle || {}
+    //   if (this.width !== 0) {
+    //     style.width = this.widthC
+    //   }
+    //   if (this.height !== 0) {
+    //     style.height = this.heightC
+    //   }
+    //   if (this.size === 'small') {
+    //     style.height = '30px'
+    //     style.width = '255px'
+    //   }
+    //   return style
+    // },
 
     styleInner () {
-      const style = this.popStyle || {}
+      const style = { ...this.popStyle }
       if (this.size === 'small') {
         style.height = '30px'
         style.width = '255px'
       } else {
-        style.height = '100%'
-        style.width = '100%'
+        if (this.width !== 0) {
+          style.width = this.widthC
+        }
+        if (this.height !== 0) {
+          style.height = this.heightC
+        }
       }
       // if(this.lightStyle){style.opacity="0.5"}
       return style

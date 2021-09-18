@@ -6,24 +6,23 @@
 
 <script type="text/ecmascript-6">
 import whCompute from '../../mixins/whCompute'
-import {themeType} from '../../types'
+import { themeType } from '../../types'
 export default {
   name: 'XlButton',
 
-  mixins:[whCompute],
-  
   components: {
   },
 
-  emits:['click'],
+  mixins: [whCompute],
 
   props: {
     type: {
       type: String,
       default: 'notice'
     },
-    lightStyle:Boolean,
-    plain:Boolean,
+
+    lightStyle: Boolean,
+    plain: Boolean,
     popStyle: {
       type: Object,
       default () {
@@ -33,7 +32,7 @@ export default {
 
     circle: {
       type: Boolean,
-      default:false
+      default: false
     },
 
     label: { // 内容
@@ -47,28 +46,30 @@ export default {
     }
   },
 
+  emits: ['click'],
+
   data () {
     return {
-      maxSize:0
+      maxSize: 0
     }
   },
 
   computed: {
 
     styleC () {
-      const style = this.popStyle||{}
+      const style = { ...this.popStyle }
       if (this.width !== 0) {
-        style.width=this.widthC
+        style.width = this.widthC
       }
       if (this.height !== 0) {
-        style.height=this.heightC
+        style.height = this.heightC
       }
       if (this.circle) {
-        style.width=`${this.maxSize}px`
-        style.height=`${this.maxSize}px`
-        style.borderRadius =  '50%'
+        style.width = `${this.maxSize}px`
+        style.height = `${this.maxSize}px`
+        style.borderRadius = '50%'
       }
-      if(this.classC.join().includes('-bd-')){
+      if (this.classC.join().includes('-bd-')) {
         style.borderWidth = '0.5px'
         style.borderStyle = 'solid'
       }
@@ -76,19 +77,19 @@ export default {
     },
 
     classC () {
-      const bg = this.plain?themeType('white','bg') : themeType(this.type,'bg',this.lightStyle)
-      const color = this.plain?themeType(this.type,null) : 
-                               this.lightStyle? themeType(this.type,null) : 
-                                                themeType('white',null)
-      const border = this.plain? themeType(this.type,'bd',true) : 
-                                 this.lightStyle? themeType(this.type,'bd',true) : ''
-      const bgHover = this.plain? themeType(this.type,'bg-hover',this.lightStyle):
-                                  this.lightStyle? themeType(this.type,'bg-hover'):
-                                                   themeType(this.type,'bg-hover') + ' '+'xl-color-hover-brightness'
-      const colorHover = this.plain? this.lightStyle? themeType(this.type,'hover'): 
-                                                      themeType('white','hover'): themeType('white','hover')
-      const borderHover = this.plain? themeType(this.type,'bd-hover',true):''
-      return [bg,bgHover,color,colorHover,border,borderHover]
+      const bg = this.plain ? themeType('white', 'bg') : themeType(this.type, 'bg', this.lightStyle)
+      const color = this.plain ? themeType(this.type, null)
+        : this.lightStyle ? themeType(this.type, null)
+          : themeType('white', null)
+      const border = this.plain ? themeType(this.type, 'bd', true)
+        : this.lightStyle ? themeType(this.type, 'bd', true) : ''
+      const bgHover = this.plain ? themeType(this.type, 'bg-hover', this.lightStyle)
+        : this.lightStyle ? themeType(this.type, 'bg-hover')
+          : themeType(this.type, 'bg-hover') + ' ' + 'xl-color-hover-brightness'
+      const colorHover = this.plain ? this.lightStyle ? themeType(this.type, 'hover')
+        : themeType('white', 'hover') : themeType('white', 'hover')
+      const borderHover = this.plain ? themeType(this.type, 'bd-hover', true) : ''
+      return [bg, bgHover, color, colorHover, border, borderHover]
     }
 
   },
@@ -97,8 +98,8 @@ export default {
   },
 
   mounted () {
-    this.$nextTick(()=>{
-      this.maxSize = Math.max(this.$refs.XlButton.clientWidth,this.$refs.XlButton.clientWidth)
+    this.$nextTick().then(() => {
+      this.maxSize = Math.max(this.$refs.XlButton.clientWidth, this.$refs.XlButton.clientWidth)
     })
   },
 
@@ -109,19 +110,19 @@ export default {
     },
 
     go () {
-      if(this.to&&this.$router){
+      if (this.to && this.$router) {
         if (typeof this.to === 'string') {
           if (this.to?.slice(1) !== '/') {
             this.$router.push({ name: this.to })
-          }else{
+          } else {
             this.$router.push({ path: this.to })
-          } 
+          }
         } else {
           this.$router.push(this.to)
         }
       }
-      if (this.type === 'back') {
-        this.$router?.go(-1)
+      if (this.type === 'back' && this.$router) {
+        this.$routergo(-1)
       }
     }
   }
