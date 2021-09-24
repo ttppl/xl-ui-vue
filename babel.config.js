@@ -2,6 +2,12 @@ module.exports = {
   presets: [
     '@vue/cli-plugin-babel/preset'
   ],
+  env: {
+    debug: {
+      sourceMaps: true,
+      retainLines: true
+    }
+  },
   plugins: [
     [
       'import',

@@ -146,7 +146,9 @@ module.exports = () => {
       },
       runtimeCompiler: false,
       productionSourceMap: false,
-
+      configureWebpack: {
+        devtool: 'source-map'
+      },
       chainWebpack: (config) => {
         config.resolve.alias
           .set('@', path.resolve('example'))

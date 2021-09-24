@@ -1,7 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import '~/styles/setting.less'
-import '~/styles/themBase.less'
+// import '~/styles/setting.less'
+// import '~/styles/themBase.less'
+
+import '~/styles'
 
 // import xlui from 'xl-ui-vue3'
 

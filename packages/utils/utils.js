@@ -27,4 +27,18 @@ export const getWindowSize = function () {
   return size
 }
 
-export default { camelize, isObject, trim, isArray, isString, getWindowSize }
+export function getDate (dateString, format) {
+  if (!dateString) {
+    return new Date()
+  }
+  const formatLower = format.toLowerCase()
+  const year = dateString.slice(formatLower.indexOf('yyyy'), formatLower.indexOf('yyyy') + 4) / 1
+  const month = dateString.slice(format.indexOf('MM'), format.indexOf('MM') + 2) / 1
+  const day = dateString.slice(formatLower.indexOf('dd'), formatLower.indexOf('dd') + 2) / 1
+  const hour = dateString.slice(formatLower.indexOf('hh'), formatLower.indexOf('hh') + 2) / 1
+  const minute = dateString.slice(format.indexOf('mm'), format.indexOf('mm') + 2) / 1
+  const second = dateString.slice(formatLower.indexOf('ss'), formatLower.indexOf('ss') + 2) / 1
+  return new Date(year, month - 1, day, hour, minute, second)
+}
+
+export default { camelize, isObject, trim, isArray, isString, getWindowSize, getDate }

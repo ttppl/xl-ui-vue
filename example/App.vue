@@ -172,6 +172,12 @@
       <XlSelectOption value="222" label="222" />
       <XlSelectOption value="333" label="333" />
     </XlSelect>
+    <XlSelect v-model="select" size="1" type="primary" multi-select placeholder="jjj">
+      <XlSelectOption type="warn" value="111" label="111" />
+      <XlSelectOption value="222" label="222" />
+      <XlSelectOption value="333" label="333" />
+    </XlSelect>
+    <XlDatePicker filter />
     <div class="none" />
   </div>
 </template>
