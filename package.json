@@ -1,0 +1,63 @@
+{
+  "name": "xl-ui-vue3",
+  "version": "0.0.1-beta-0.0.5",
+  "description": "基于 vue3 的 UI 组件库",
+  "author": "lzx",
+  "main": "lib/index",
+  "style": "lib",
+  "keywords": [
+    "xl-ui"
+  ],
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "buildc": "vue-cli-service build --no-clean --mode buildcomponent",
+    "build": "vue-cli-service build --target lib --name xl-ui --dest lib packages/index.js --no-clean",
+    "lint": "vue-cli-service lint",
+    "pack": "npm run build && npm pack && npm i xl-ui-vue3-0.0.1-beta-0.0.5.tgz && npm run serve",
+    "buildInput": "vue-cli-service build --target lib --name index --dest lib/xl-input packages/input/index.js",
+    "buildAll": "vue-cli-service build --target lib --name index --dest lib/xl-input packages/input/index.js && vue-cli-service build --target lib --name index --dest lib/xl-table packages/table/index.js && vue-cli-service build --target lib --name index --dest lib/xl-table-column packages/tableColumn/index.js",
+    "lib": "cross-env NODE_ENV=production rimraf ./lib && node ./build/rollup.build"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "less": "^4.1.1",
+    "less-loader": "^6.0.0",
+    "vue": "^3.0.0",
+    "xl-ui-vue3": "file:xl-ui-vue3-0.0.1-beta-0.0.5.tgz"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-import": "^1.13.3",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^7.0.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.21.0",
+    "rollup-plugin-alias": "^2.0.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-filesize": "^6.2.0",
+    "rollup-plugin-img": "^1.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-vue": "^5.0.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
