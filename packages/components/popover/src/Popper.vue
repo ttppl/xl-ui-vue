@@ -98,7 +98,6 @@ export default {
       scrollWidth: 0,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
-      ownHeight: 0,
       ownWidth: 0,
       popperPosition: {
         left: 0,
@@ -262,7 +261,6 @@ export default {
       }
       const parent = this.xlPopperTrigger.dom()
       if (parent) {
-        debugger
         this.finalPosition = this.position
         this.windowWidth = window.innerWidth
         this.windowHeight = window.innerHeight
@@ -280,8 +278,11 @@ export default {
         // const ownWidthOrig = size.width||this.widthC.slice(0,-2)/1
         const ownWidth = this.minWidthFollowParent ? Math.max(ownWidthOrig, parentwidth) : ownWidthOrig
         this.ownWidth = ownWidthOrig
-        const ownHeight = this.$refs.popper?.getBoundingClientRect().height || this.heightC.slice(0, -2) / 1
-        this.ownHeight = ownHeight
+        let ownHeight = this.$refs.popper?.getBoundingClientRect().height || this.heightC.slice(0, -2) / 1
+        if (this.maxHeight !== 0 && ownHeight >= this.maxHeight) {
+          ownHeight = this.maxHeight
+        }
+        // this.ownHeight = ownHeight
         // const ownHeight = size.height||this.heightC.slice(0,-2)/1
         const windowHeight = window.innerHeight - this.scrollWidth
         const windowWidth = window.innerWidth - this.scrollWidth

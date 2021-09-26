@@ -376,29 +376,29 @@ export default {
 }
 .datepicker{
   padding:20px;
-  .datepicker-panel{
-    position: relative;
-    .datepicker-year-month{
-      display: flex;
-      justify-content: space-between;
-      .label{
-        font-size: 18px;
-        font-family: Arial;
-        font-weight: 700;
-        cursor: pointer;
-        .label-month{
-          margin-left: 30px;
-        }
-      }
-      .arrow-left{
-        cursor: pointer;
-        transform: rotate(90deg);
-      }
-      .arrow-right{
-        cursor: pointer;
-        transform: rotate(-90deg);
+  .datepicker-year-month{
+    display: flex;
+    justify-content: space-between;
+    .label{
+      font-size: 18px;
+      font-family: Arial;
+      font-weight: 700;
+      cursor: pointer;
+      .label-month{
+        margin-left: 30px;
       }
     }
+    .arrow-left{
+      cursor: pointer;
+      transform: rotate(90deg);
+    }
+    .arrow-right{
+      cursor: pointer;
+      transform: rotate(-90deg);
+    }
+  }
+  .datepicker-panel{
+    position: relative;
     .datepicker-day{
       margin-top: 10px;
       padding-top: 10px;
