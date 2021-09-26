@@ -3,7 +3,11 @@
     <div ref="select" v-clickoutside="closeSelect" tabindex="0" :class="classes" class="xl-select-label" :style="styleInner" @click="showList">
       <span v-if="selected" :style="textStyle" class="selected">{{ selected }}</span>
       <span v-else class="placeholder">{{ placeholder }}</span>
-      <svg t="1629969520836" class="select-icon" :class="{'select-icon-checked':showSelectMenu,'select-icon-light':lightStyle}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2710" :width="arrowSize" :height="arrowSize"><path d="M132.577882 283.648c7.710118-8.041412 18.251294-12.589176 29.214118-12.589176 10.992941 0 21.534118 4.517647 29.214118 12.589176L514.349176 619.218824l318.644706-330.812236c7.710118-8.041412 18.251294-12.589176 29.214118-12.589176 11.023059 0 21.534118 4.517647 29.244235 12.589176 8.071529 8.372706 12.107294 19.335529 12.107294 30.328471 0 10.992941-4.065882 21.985882-12.107294 30.32847L543.533176 710.234353a40.448 40.448 0 0 1-29.214117 12.589176c-10.992941 0-21.504-4.517647-29.214118-12.589176L132.577882 344.304941a44.001882 44.001882 0 0 1 0-60.656941z" p-id="2711" :fill="themeColor" /></svg>
+      <svg v-if="!(showClear&&model?.length>0)" t="1629969520836" class="select-icon" :class="{'select-icon-checked':showSelectMenu,'select-icon-light':lightStyle}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2710" :width="arrowSize" :height="arrowSize"><path d="M132.577882 283.648c7.710118-8.041412 18.251294-12.589176 29.214118-12.589176 10.992941 0 21.534118 4.517647 29.214118 12.589176L514.349176 619.218824l318.644706-330.812236c7.710118-8.041412 18.251294-12.589176 29.214118-12.589176 11.023059 0 21.534118 4.517647 29.244235 12.589176 8.071529 8.372706 12.107294 19.335529 12.107294 30.328471 0 10.992941-4.065882 21.985882-12.107294 30.32847L543.533176 710.234353a40.448 40.448 0 0 1-29.214117 12.589176c-10.992941 0-21.504-4.517647-29.214118-12.589176L132.577882 344.304941a44.001882 44.001882 0 0 1 0-60.656941z" p-id="2711" :fill="themeColor" /></svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" :width="arrowSize" :height="arrowSize" class="clear-icon pointer" version="1.1" @click.stop="model=''">
+        <line x1="0" y1="0" x2="100%" y2="100%" :style="`stroke:${themeColor};stroke-width:1`" />
+        <line x1="100%" y1="0" x2="0" y2="100%" :style="`stroke:${themeColor};stroke-width:1`" />
+      </svg>
     </div>
     <Popper v-model="showSelectMenu" type="select" :max-height="panelHeight" min-width-follow-parent>
       <div class="options">
@@ -67,6 +71,11 @@ export default {
     multiSelect: Boolean,
 
     lightStyle: Boolean,
+
+    showClear: {
+      type: Boolean,
+      default: true
+    },
 
     modelValue: {
       type: [String, Array],
@@ -151,13 +160,15 @@ export default {
       },
 
       set (val) {
-        this.$emit('update:modelValue', val)
+        if (!val && Array.isArray(this.modelValue)) {
+          this.$emit('update:modelValue', [])
+        } else { this.$emit('update:modelValue', val) }
       }
     },
 
     selected () {
-      if (Array.isArray(this.model) && this.model?.length > 0) {
-        if (this.mutiSelect) {
+      if (Array.isArray(this.model)) {
+        if (this.multiSelect) {
           return this.model.join(',')
         } else {
           return this.model
@@ -253,12 +264,16 @@ export default {
         text-indent: 1em;
         color: #909399;
       }
-      >.select-icon{
+      >.select-icon,.clear-icon{
         cursor: pointer;
         text-align: left;
         right:5%;
         position: relative;
         vertical-align: middle;
+        transition-duration: 0.5s;
+      }
+      .clear-icon:hover{
+        transform: scale(1.5,1.5);
         transition-duration: 0.5s;
       }
       >.select-icon-checked{

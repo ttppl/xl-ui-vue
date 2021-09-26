@@ -158,7 +158,7 @@
 
       <div />
     </div>
-    <XlSelect v-model="select" size="1" type="primary" multi-select placeholder="jjj">
+    <XlSelect v-model="select" size="1" type="primary" placeholder="jjj">
       <XlSelectOption type="warn" value="111" label="111" />
       <XlSelectOption value="222" label="222" />
       <XlSelectOption value="333" label="333" />
