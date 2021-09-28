@@ -99,7 +99,7 @@ export default {
 
   mounted () {
     this.$nextTick().then(() => {
-      this.maxSize = Math.max(this.$refs.XlButton.clientWidth, this.$refs.XlButton.clientWidth)
+      this.maxSize = Math.max(this.$refs.XlButton.clientWidth, this.$refs.XlButton.clientHeight) + 10
     })
   },
 
@@ -111,8 +111,10 @@ export default {
 
     go () {
       if (this.to && this.$router) {
-        if (typeof this.to === 'string') {
-          if (this.to?.slice(1) !== '/') {
+        if (this.to === '-1') {
+          this.$router.go(-1)
+        } else if (typeof this.to === 'string') {
+          if (this.to.slice(0, 1) !== '/') {
             this.$router.push({ name: this.to })
           } else {
             this.$router.push({ path: this.to })
@@ -120,9 +122,6 @@ export default {
         } else {
           this.$router.push(this.to)
         }
-      }
-      if (this.type === 'back' && this.$router) {
-        this.$routergo(-1)
       }
     }
   }

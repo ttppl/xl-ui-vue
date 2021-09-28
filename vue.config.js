@@ -212,7 +212,7 @@ module.exports = {
     index: {
       // page 的入口
       entry: 'example/main.js',
-      template: 'public/index.html',
+      template: 'example/index.html',
       filename: 'index.html',
       // 当使用 title 选项时，
       // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
@@ -244,6 +244,9 @@ module.exports = {
     } else {
       // 开发环境
       config.mode = 'development'
+    }
+    config.externals = {
+      'highlight.min.js': 'hljs'
     }
   },
 
@@ -312,11 +315,6 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'less',
       patterns: [
-        // path.resolve(__dirname, './src/styles/main.less')
-        // path.resolve(__dirname, './src/styles/main.less'),
-        // path.resolve(__dirname, './src/styles/setting.less'),
-        // path.resolve(__dirname, './src/styles/flex.less'),
-        // path.resolve(__dirname, './src/styles/transition.less')
       ]
     }
   }
