@@ -30,7 +30,14 @@ requiredModules.keys().forEach(fileName => {
 })
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
-  routes: routes
+  routes: routes,
+  scrollBehavior (to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    }
+  }
 })
 
 export default router

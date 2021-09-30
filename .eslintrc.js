@@ -129,7 +129,7 @@ module.exports = {
     'vue/no-useless-mustaches': 'warn',
     'vue/no-useless-v-bind': 'warn',
     'vue/no-v-for-template-key-on-child': 'warn',
-    'vue/no-v-for-template-key': 'off',
+    'vue/no-v-for-template-key': 'warn',
     'vue/no-v-html': 'off',
     'vue/no-v-model-argument': 'warn',
     'vue/no-watch-after-await': 'warn',

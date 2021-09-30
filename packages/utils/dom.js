@@ -181,4 +181,67 @@ export function getElementSize (el) {
   return size
 }
 
-export default { createElement, addClass, hasClass, removeClass, getStyle, setStyle, removeStyle, addChild, unshiftChild, getElementSize }
+export function on (element, event, handler, useCapture) {
+  element.addEventListener(event, handler, useCapture)
+}
+
+export function off (element, event, handler, useCapture) {
+  element.removeEventListener(event, handler, useCapture)
+}
+
+export const getOffsetTop = (el) => {
+  let offset = 0
+  let parent = el
+
+  while (parent) {
+    offset += parent.offsetTop
+    parent = parent.offsetParent
+  }
+
+  return offset
+}
+
+export const getOffsetTopDistance = (el, containerEl) => {
+  return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
+}
+
+const cubic = (value) => Math.pow(value, 3)
+
+const easeInOutCubic = (value) => value < 0.5
+  ? cubic(value * 2) / 2
+  : 1 - cubic((1 - value) * 2) / 2
+
+export const scrollTo = (container = document.documentElement || document.body || window.pageYOffset, el, offset = 0) => {
+  const beginTime = Date.now()
+  const beginValue = container.scrollTop
+  const distance = getOffsetTopDistance(container, el) - beginValue + offset
+  const rAF = window.requestAnimationFrame || (func => setTimeout(func, 16))
+  const frameFunc = () => {
+    const progress = (Date.now() - beginTime) / 500
+    if (progress < 1) {
+      container.scrollTop = beginValue + distance * easeInOutCubic(progress)
+      rAF(frameFunc)
+    } else {
+      container.scrollTop = beginValue + distance
+    }
+  }
+  rAF(frameFunc)
+}
+
+export default {
+  createElement,
+  addClass,
+  hasClass,
+  removeClass,
+  getStyle,
+  setStyle,
+  removeStyle,
+  addChild,
+  unshiftChild,
+  getElementSize,
+  on,
+  off,
+  getOffsetTop,
+  getOffsetTopDistance,
+  scrollTo
+}

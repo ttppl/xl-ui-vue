@@ -2,6 +2,7 @@
   <div class="Guide">
     <XlButton to="button">button</XlButton>
     <XlButton to="input">input</XlButton>
+    <XlButton to="category">category</XlButton>
   </div>
 </template>
 
